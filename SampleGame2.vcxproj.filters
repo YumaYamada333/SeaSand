@@ -25,6 +25,9 @@
     <Filter Include="ゲーム\sound">
       <UniqueIdentifier>{1e7087f7-e664-4671-ae51-9d920aee5a80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム\Object">
+      <UniqueIdentifier>{42f53d7c-416e-4874-8d6d-d23f55ff6b5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImaseLib\FPSTimer.cpp">
@@ -59,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="ADX2Le.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\ObjectBase.cpp">
+      <Filter>ゲーム\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="Game\CueSheet_0.h">
       <Filter>ゲーム\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\ObjectBase.h">
+      <Filter>ゲーム\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
