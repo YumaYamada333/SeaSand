@@ -26,6 +26,7 @@ using namespace DirectX;
 ScreenEffect::ScreenEffect()
 	: m_setting_time(0)
 	, m_time(0)
+	, m_rgba(1.0f, 1.0f, 1.0f, 1.0f)
 {
 
 }
@@ -39,7 +40,7 @@ ScreenEffect::~ScreenEffect()
 }
 
 //----------------------------------------------------------------------
-//! @brief ˆ—
+//! @brief ¶¬
 //!
 //! @param[in] ‚È‚µ
 //!
@@ -63,19 +64,7 @@ const ScreenEffect& ScreenEffect::Create(Type type)
 //----------------------------------------------------------------------
 void ScreenEffect::Update()
 {
-
-}
-
-//----------------------------------------------------------------------
-//! @brief ˆ—
-//!
-//! @param[in] ‚È‚µ
-//!
-//! @return ‚È‚µ
-//----------------------------------------------------------------------
-void ScreenEffect::Update()
-{
-	
+	m_time++;
 }
 
 //----------------------------------------------------------------------
@@ -87,6 +76,7 @@ void ScreenEffect::Update()
 //----------------------------------------------------------------------
 void ScreenEffect::Move()
 {
+	ObjectBase::Move();
 }
 
 //----------------------------------------------------------------------
@@ -98,9 +88,8 @@ void ScreenEffect::Move()
 //----------------------------------------------------------------------
 void ScreenEffect::Render() const
 {
-	float a = 
 	g_spriteBatch->Draw(m_handle->m_pTexture, m_pos, &m_grp
-		, Vector4(1.0f, 1.0f,1.0f, a), 0.0f, m_center, Vector2(1.0f, 1.0f));
+		, m_rgba, 0.0f, m_center, Vector2(1.0f, 1.0f));
 
 }
 

@@ -26,6 +26,9 @@ private:
 	// Œv‘ª—p‚ÌŠÔ
 	int m_time;
 
+	// RGBA
+	Vector4 m_rgba;
+
 	// ‰Šú‰»
 	ScreenEffect();
 public:
