@@ -121,6 +121,7 @@ void Food::Update()
 		default:
 			break;
 		}
+		int a;
 	}
 }
 
