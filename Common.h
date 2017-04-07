@@ -12,3 +12,10 @@ Author:Miyu Hara
 // ※この2つは関数化できなかったので、マクロ化
 #define DeleteMemory(p)      {delete   p; p=nullptr;}	// 安全にメモリを解放
 #define DeleteArrayMemory(p) {delete[] p; p=nullptr;}	// 安全にメモリを解放(配列版)
+
+/* 列挙型 */
+enum BREAD_TYPE
+{
+	UP,		// 上のパン
+	DOWN,	// 下のパン
+};

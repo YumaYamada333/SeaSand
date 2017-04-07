@@ -16,12 +16,6 @@
 class Play:public GameBase
 {
 private:
-	static enum		// パン区別
-	{
-		UP,		// 上のパン
-		DOWN,	// 下のパン
-	};
-
 	Player** m_bread;		// 食パン
 	
 	void InitBread();		// パン初期化

@@ -67,19 +67,35 @@ void Play::Update()
 	m_bread[DOWN]->MoveReset();
 
 	/* キー入力 */
-	if (g_key.Left)			// 左移動
+	// TODO:関数化候補
+	if (!(m_bread[UP]->IsSand()))
 	{
-		m_bread[UP]->MoveLeft();
-		m_bread[DOWN]->MoveLeft();
-	}
-	else if (g_key.Right)	// 右移動
-	{
-		m_bread[UP]->MoveRight();
-		m_bread[DOWN]->MoveRight();
+		if (g_key.Left)					// 左移動
+		{
+			m_bread[UP]->MoveLeft();
+			m_bread[DOWN]->MoveLeft();
+		}
+		else if (g_key.Right)			// 右移動
+		{
+			m_bread[UP]->MoveRight();
+			m_bread[DOWN]->MoveRight();
+		}
+		else if (g_key.Space)			// はさむ
+		{
+			m_bread[UP]->Sand(UP);
+			m_bread[DOWN]->Sand(DOWN);
+		}
 	}
 
 	m_bread[UP]->Update();
 	m_bread[DOWN]->Update();
+
+	/* パン同士のあたり判定 */
+	if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+	{
+		m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
+		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
+	}
 
 	//if (g_mouse.leftButton)
 	//{
@@ -121,7 +137,7 @@ void Play::InitBread()
 	const RECT    BREAD_RECT           = { 0,0,100,20 };
 	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(100.0f,100.0f),Vector2(100.0f,400.0f) };
 
-	/* プレイヤー生成 */
+	/* パン生成 */
 	m_bread = new Player*[BREAD_NUM];	// 動的配列確保
 	m_bread[UP]   = new Player(bread_handle, BREAD_RECT, BREAD_POS[UP]);
 	m_bread[DOWN] = new Player(bread_handle, BREAD_RECT, BREAD_POS[DOWN]);

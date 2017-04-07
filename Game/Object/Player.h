@@ -10,6 +10,9 @@ Author:Miyu Hara
 /* インクルードファイル */
 #include "ObjectBase.h"
 
+/* 使用する型 */
+enum  BREAD_TYPE;
+
 /* クラスの定義 */
 class Player :public ObjectBase
 {
@@ -23,10 +26,14 @@ public:
 	void MoveRight();	// 右移動
 	void MoveReset();	// 移動リセット
 
+	void Sand(BREAD_TYPE type);	// はさむ
+	bool IsSand();				// はさんでる？(移動のみ。具判定は別)
+
 private:
 	/* メンバ関数 */
 	void Move()   override;		// 移動
-
+	
 	/* メンバ変数 */
 	static const float SPEED_X;		// 速度Ｘ
+	static const float SPEED_Y;		// 速度Ｙ
 };
