@@ -60,17 +60,25 @@ void Play::Update()
 	//シーンの最初に一回だけ行う初期化処理
 	if (g_init == 0)
 	{
+		//めざすライン
+		int line_num = GetRand(F_LINE_NUM);
 		//食材の出現
 		for (int i = 0; i < FOOD_NUM; i++)
 		{
+			//食材の種類
 			int food_type = GetRand(FOOD_TYPE_NUM);
+			//食材の行動パターン
 			int move_type = GetRand(F_MOVE_TYPE_NUM);
-			int line_num = GetRand(5);
 			m_food[i] = new Food(food_type, move_type, i, line_num);
 		}
 
 		g_init = 1;
 	}	
+	//食材の更新
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Update();
+	}
 
 	//食材の移動
 	for (int i = 0; i < FOOD_NUM; i++)
