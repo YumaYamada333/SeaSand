@@ -23,7 +23,7 @@ using namespace DirectX;
 //----------------------------------------------------------------------
 Logo::Logo()
 {
-
+	
 }
 
 //----------------------------------------------------------------------
@@ -71,7 +71,5 @@ void Logo::Render()
 
 	swprintf_s(buf, 256, L"LOGO");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
-
-	
 }
 
