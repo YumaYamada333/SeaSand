@@ -14,7 +14,14 @@
 class Clear : public GameBase 
 {
 private:
-	
+	// ƒvƒŒƒC‚ÌƒXƒRƒA(‚Ç‚±‚©‚Åæ“¾)
+	int m_score;
+	// ŠÔ
+	float m_time;
+	// ”wŒi•¶š
+	Texture* m_message;
+	// ”wŒi‰æ‘œ
+	Texture* m_back_image;
 public:
 	Clear();
 	~Clear();

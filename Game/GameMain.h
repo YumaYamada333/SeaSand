@@ -68,13 +68,10 @@ void RenderGame(void);
 void FinalizeGame(void);
 
 //　数値描画処理
-//void DrawNum(int x, int y, int n);
+void DrawNum(int x, int y, int n);
 
 //テクスチャの描画(テクスチャがないためコメントアウト)
 void DrawRectTexture(int pos_x, int pos_y, int tex_x, int tex_y, int tex_w, int tex_h, Texture* handle);
 
 //ランダムゲット
 int GetRand(int num);
-
-
-

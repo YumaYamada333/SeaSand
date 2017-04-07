@@ -23,7 +23,9 @@ using namespace DirectX;
 //----------------------------------------------------------------------
 Clear::Clear()
 {
-
+	// 画像読み込み
+	m_back_image = new Texture(L"Resources\\Images\\ResultBackImage.png");
+	m_message = new Texture(L"Resources\\Images\\ResultMessage_Result.png");
 }
 
 //----------------------------------------------------------------------
@@ -35,6 +37,18 @@ Clear::Clear()
 //----------------------------------------------------------------------
 Clear::~Clear()
 {
+	auto Delete = [](Texture** t)
+	{
+		if (t)
+		{
+			delete (*t);
+			*t = nullptr;
+		}
+	};
+		
+	Delete(&m_back_image);
+	Delete(&m_message);
+
 }
 
 //----------------------------------------------------------------------
@@ -50,13 +64,13 @@ void Clear::Update()
 	{
 		g_init = 1;
 	}
-	
 
-
+	// タイトルに移行
 	if (g_keyTracker->pressed.Space)
 	{ 
 		g_NextScene = TITLE;
 	}
+
 }
 
 //----------------------------------------------------------------------
@@ -69,7 +83,11 @@ void Clear::Update()
 void Clear::Render()
 {
 	wchar_t buf[256];
-
+	RECT rect;
 	swprintf_s(buf, 256, L"CLEAR");
+
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+
+	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_back_image);
+	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_message);
 }

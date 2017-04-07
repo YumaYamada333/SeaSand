@@ -45,7 +45,7 @@ void InitializeGame(void)
 
 	g_key_old = 0;
 
-	base =new Logo();
+	base = new Logo();
 	g_NextScene = g_scene;
 
 }
@@ -134,30 +134,30 @@ void FinalizeGame(void)
 //----------------------------------------------------------------------
 //! @brief 数値描画処理(テクスチャがないためコメントアウト)
 //!
-//! @param[in] xy座標，数値w
+//! @param[in] xy座標，数値n, Texture
 //!
 //! @return なし
 //----------------------------------------------------------------------
-//void DrawNum(int x, int y, int n)
-//{
-//	int w = n;		//計算用
-//	int i = 0;		//文字数
-//
-//	if (w == 0)
-//	{
-//		DrawRectTexture(x, y, 0, 48, 25, 32, g_PongImage);
-//	}
-//	else
-//	{
-//		while (w)
-//		{
-//			DrawRectTexture(x - i * 25, y, (w % 10) * 25, 48, 25, 32, g_PongImage);
-//			w = w / 10;
-//			i++;
-//		}
-//	}
-//
-//}
+void DrawNum(int x, int y, int n, Texture* handle)
+{
+	int w = n;		//計算用
+	int i = 0;		//文字数
+
+	if (w == 0)
+	{
+		DrawRectTexture(x, y, 0, 48, 25, 32, handle);
+	}
+	else
+	{
+		while (w)
+		{
+			DrawRectTexture(x - i * 25, y, (w % 10) * 25, 48, 25, 32, handle);
+			w = w / 10;
+			i++;
+		}
+	}
+
+}
 
 //----------------------------------------------------------------------
 //! @brief テクスチャの描画
