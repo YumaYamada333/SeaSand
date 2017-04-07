@@ -138,20 +138,35 @@ void FinalizeGame(void)
 //!
 //! @return Ç»Çµ
 //----------------------------------------------------------------------
-void DrawNum(int x, int y, int n, Texture* handle)
+void DrawNum(int x, int y, int grp_x, int grp_y, int grp_w, int grp_h, int n, Texture* handle)
 {
 	int w = n;		//åvéZóp
 	int i = 0;		//ï∂éöêî
 
+	struct Rect
+	{
+		int left;
+		int top;
+		int right;
+		int bottom;
+	};
+
+	Rect rect = {grp_x, grp_y, grp_x + grp_w, grp_y + grp_h};
+
+	float width = static_cast<float>(rect.right - rect.left);
+	float height = static_cast<float>(rect.bottom - rect.top);
+	Vector2 grp(static_cast<float>(rect.left), static_cast<float>(rect.top));
+	const int number_size = static_cast<int>(width / 10);
+
 	if (w == 0)
 	{
-		DrawRectTexture(x, y, 0, 48, 25, 32, handle);
+		DrawRectTexture(x, y, static_cast<int>(grp.x), static_cast<int>(grp.y), static_cast<int>(number_size), static_cast<int>(height), handle);
 	}
 	else
 	{
 		while (w)
 		{
-			DrawRectTexture(x - i * 25, y, (w % 10) * 25, 48, 25, 32, handle);
+			DrawRectTexture(x - i * number_size, y, static_cast<int>(grp.x) + (w % 10) * number_size, static_cast<int>(grp.y), number_size, static_cast<int>(height), handle);
 			w = w / 10;
 			i++;
 		}
