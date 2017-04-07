@@ -51,7 +51,9 @@ void Clear::Update()
 		g_init = 1;
 	}
 	
-	if (g_mouse.leftButton)
+
+
+	if (g_keyTracker->pressed.Space)
 	{ 
 		g_NextScene = TITLE;
 	}

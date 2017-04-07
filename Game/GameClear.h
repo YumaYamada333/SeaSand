@@ -14,7 +14,7 @@
 class Clear : public GameBase 
 {
 private:
-
+	
 public:
 	Clear();
 	~Clear();
