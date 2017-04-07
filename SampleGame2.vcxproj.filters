@@ -66,6 +66,9 @@
     <ClCompile Include="Game\Object\ObjectBase.cpp">
       <Filter>ゲーム\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Object\Player.cpp">
+      <Filter>ゲーム\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImaseLib\FPSTimer.h">
@@ -108,6 +111,9 @@
       <Filter>ゲーム\sound</Filter>
     </ClInclude>
     <ClInclude Include="Game\Object\ObjectBase.h">
+      <Filter>ゲーム\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Player.h">
       <Filter>ゲーム\Object</Filter>
     </ClInclude>
   </ItemGroup>
