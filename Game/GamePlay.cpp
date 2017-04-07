@@ -84,11 +84,28 @@ void Play::Update()
 		{
 			m_bread[UP]->Sand(UP);
 			m_bread[DOWN]->Sand(DOWN);
+		//めざすライン
+		int line_num = GetRand(F_LINE_NUM);
+		//食材の出現
+		for (int i = 0; i < FOOD_NUM; i++)
+		{
+			//食材の種類
+			int food_type = GetRand(FOOD_TYPE_NUM);
+			//食材の行動パターン
+			int move_type = GetRand(F_MOVE_TYPE_NUM);
+			m_food[i] = new Food(food_type, move_type, i, line_num);
 		}
 	}
 
 	m_bread[UP]->Update();
 	m_bread[DOWN]->Update();
+		g_init = 1;
+	}	
+	//食材の更新
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Update();
+	}
 
 	/* パン同士のあたり判定 */
 	if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
