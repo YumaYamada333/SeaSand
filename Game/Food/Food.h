@@ -50,6 +50,7 @@ private:
 	int m_num;				//何個目の食材か
 	int m_line;				//食材が目指すライン(x座標)
 	int m_last_line;		//食材が最終的に目指すライン
+	int m_start_line;		//食材のスタート地点
 	int m_turn_num;			//食材のターン回数
 	int m_time;				//食材の移動時間
 

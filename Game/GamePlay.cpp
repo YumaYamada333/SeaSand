@@ -12,6 +12,7 @@
 #include "GameMain.h"
 #include "GamePlay.h"
 #include <cassert>		// assert
+#include "Food\Food.h"
 
 #include "../Common.h"
 
@@ -46,6 +47,12 @@ Play::Play()
 Play::~Play()
 {
 	ReleaseBread();
+
+	//食材の破棄
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		delete m_food[i];
+	}
 }
 
 //----------------------------------------------------------------------
@@ -61,6 +68,18 @@ void Play::Update()
 	if (g_init == 0)
 	{
 		g_init = 1;
+
+		//めざすライン
+		int line_num = GetRand(F_LINE_NUM);
+		//食材の出現
+		for (int i = 0; i < FOOD_NUM; i++)
+		{
+			//食材の種類
+			int food_type = GetRand(FOOD_TYPE_NUM);
+			//食材の行動パターン
+			int move_type = GetRand(F_MOVE_TYPE_NUM);
+			m_food[i] = new Food(food_type, move_type, i, line_num);
+		}
 	}
 
 	m_bread[UP]->MoveReset();
@@ -84,27 +103,23 @@ void Play::Update()
 		{
 			m_bread[UP]->Sand(UP);
 			m_bread[DOWN]->Sand(DOWN);
-		//めざすライン
-		int line_num = GetRand(F_LINE_NUM);
-		//食材の出現
-		for (int i = 0; i < FOOD_NUM; i++)
-		{
-			//食材の種類
-			int food_type = GetRand(FOOD_TYPE_NUM);
-			//食材の行動パターン
-			int move_type = GetRand(F_MOVE_TYPE_NUM);
-			m_food[i] = new Food(food_type, move_type, i, line_num);
 		}
-	}
+	
 
 	m_bread[UP]->Update();
 	m_bread[DOWN]->Update();
-		g_init = 1;
+		
 	}	
 	//食材の更新
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
 		m_food[i]->Update();
+	}
+
+	//食材の移動
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Move();
 	}
 
 	/* パン同士のあたり判定 */
@@ -113,6 +128,8 @@ void Play::Update()
 		m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
 		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
 	}
+
+	
 
 	//if (g_mouse.leftButton)
 	//{
@@ -131,6 +148,12 @@ void Play::Render()
 {
 	m_bread[UP]->Render();
 	m_bread[DOWN]->Render();
+
+	//食材の描画
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Render();
+	}
 
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");

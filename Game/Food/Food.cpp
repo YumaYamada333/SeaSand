@@ -30,6 +30,8 @@ const float F_HEIGHT = 64.0f;	//高さ
 //食材の縦の間隔
 const float F_LINE_HEIGHT = 90.0f;
 
+//戻るための
+
 //食材の移動パターン
 enum FOOD_MOVE_TYPE
 {
@@ -120,8 +122,7 @@ void Food::Update()
 			break;
 		default:
 			break;
-		}
-		int a;
+		}	
 	}
 }
 

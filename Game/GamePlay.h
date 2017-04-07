@@ -12,11 +12,17 @@
 #include "GameBase.h"
 #include "Object\Player.h"
 
+class Food;
+
+//定数
+const int FOOD_NUM = 4;		//画面内に1度に出てくる食材の数
+
 //クラス
 class Play:public GameBase
 {
 private:
 	Player** m_bread;		// 食パン
+	Food* m_food[FOOD_NUM];
 	
 	void InitBread();		// パン初期化
 	void ReleaseBread();	// パン開放
