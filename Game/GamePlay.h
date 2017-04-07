@@ -15,7 +15,7 @@
 class Play:public GameBase
 {
 private:
-
+	
 public:
 	Play();
 	~Play();

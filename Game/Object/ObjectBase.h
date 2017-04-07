@@ -22,20 +22,20 @@ class ObjectBase
 {
 protected:
 	// オブジェクト全体の基準点
-	static const DirectX::SimpleMath::Vector2 objectPoint;
+	static const DirectX::SimpleMath::Vector2 m_anchor_point;
 
 	// グラフィックハンドル 
-	Texture* mHandle;
+	Texture* m_handle;
 	// 元画像
-	RECT mGrp;
+	RECT m_grp;
 	// 基準点
-	DirectX::SimpleMath::Vector2 mCenter;
+	DirectX::SimpleMath::Vector2 m_center;
 	// 座標
-	DirectX::SimpleMath::Vector2 mPos;
+	DirectX::SimpleMath::Vector2 m_pos;
 	// 速度
-	DirectX::SimpleMath::Vector2 mSpd;
+	DirectX::SimpleMath::Vector2 m_spd;
 	// 状態
-	int mState;		
+	int m_state;		
 
 public:
 	// 初期化

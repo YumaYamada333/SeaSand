@@ -16,7 +16,7 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
 // 基準点(左上0.0f ～ 1.0f右上)
-const Vector2 ObjectBase::objectPoint = Vector2(0.5f, 0.5f);
+const Vector2 ObjectBase::m_anchor_point = Vector2(0.5f, 0.5f);
 
 //----------------------------------------------------------------------
 //! @brief オブジェクトの初期化
@@ -28,12 +28,12 @@ ObjectBase::ObjectBase()
 }
 
 ObjectBase::ObjectBase(Texture* handle, const RECT& grp, const DirectX::SimpleMath::Vector2 pos, DirectX::SimpleMath::Vector2 spd, int state)
-	: mHandle(handle)
-	, mGrp(grp)
-	, mCenter(Vector2(static_cast<float>(grp.right - grp.left), static_cast<float>(grp.bottom - grp.top)) * objectPoint)
-	, mPos(pos)
-	, mSpd(spd)
-	, mState(state)
+	: m_handle(handle)
+	, m_grp(grp)
+	, m_center(Vector2(static_cast<float>(grp.right - grp.left), static_cast<float>(grp.bottom - grp.top)) * m_anchor_point)
+	, m_pos(pos)
+	, m_spd(spd)
+	, m_state(state)
 {
 }
 
@@ -54,7 +54,7 @@ ObjectBase::~ObjectBase()
 //----------------------------------------------------------------------
 const Texture* ObjectBase::SetHandle(Texture* handle)
 {
-	return 	mHandle = handle;
+	return 	m_handle = handle;
 }
 
 //----------------------------------------------------------------------
@@ -66,7 +66,7 @@ const Texture* ObjectBase::SetHandle(Texture* handle)
 //----------------------------------------------------------------------
 const Texture* ObjectBase::GetHandle() const
 {
-	return mHandle;
+	return m_handle;
 }
 
 //----------------------------------------------------------------------
@@ -78,7 +78,7 @@ const Texture* ObjectBase::GetHandle() const
 //----------------------------------------------------------------------
 const RECT& ObjectBase::SetGrp(const RECT& rect)
 {
-	return mGrp = rect;
+	return m_grp = rect;
 }
 
 //----------------------------------------------------------------------
@@ -90,7 +90,7 @@ const RECT& ObjectBase::SetGrp(const RECT& rect)
 //----------------------------------------------------------------------
 const RECT& ObjectBase::GetGrp() const
 {
-	return mGrp;
+	return m_grp;
 }
 
 //----------------------------------------------------------------------
@@ -102,7 +102,7 @@ const RECT& ObjectBase::GetGrp() const
 //----------------------------------------------------------------------
 const Vector2 ObjectBase::SetPos(const Vector2& pos)
 {
-	return mPos = pos;
+	return m_pos = pos;
 }
 
 //----------------------------------------------------------------------
@@ -114,7 +114,7 @@ const Vector2 ObjectBase::SetPos(const Vector2& pos)
 //----------------------------------------------------------------------
 const Vector2 ObjectBase::GetPos() const
 {
-	return mPos;
+	return m_pos;
 }
 
 //----------------------------------------------------------------------
@@ -126,7 +126,7 @@ const Vector2 ObjectBase::GetPos() const
 //----------------------------------------------------------------------
 const Vector2 ObjectBase::SetSpd(const Vector2& spd)
 {
-	return mSpd = spd;
+	return m_spd = spd;
 }
 
 //----------------------------------------------------------------------
@@ -138,7 +138,7 @@ const Vector2 ObjectBase::SetSpd(const Vector2& spd)
 //----------------------------------------------------------------------
 const Vector2 ObjectBase::GetSpd() const
 {
-	return mSpd;
+	return m_spd;
 }
 
 //----------------------------------------------------------------------
@@ -150,7 +150,7 @@ const Vector2 ObjectBase::GetSpd() const
 //----------------------------------------------------------------------
 int ObjectBase::SetState(int state)
 {
-	return mState = state;
+	return m_state = state;
 }
 
 //----------------------------------------------------------------------
@@ -162,7 +162,7 @@ int ObjectBase::SetState(int state)
 //----------------------------------------------------------------------
 int ObjectBase::GetState() const
 {
-	return mState;
+	return m_state;
 }
 
 //----------------------------------------------------------------------
@@ -187,7 +187,7 @@ void ObjectBase::Update()
 void ObjectBase::Move()
 {
 	// 座標更新
-	mPos += mSpd;
+	m_pos += m_spd;
 }
 
 //----------------------------------------------------------------------
@@ -210,24 +210,24 @@ void ObjectBase::Result()
 //----------------------------------------------------------------------
 bool ObjectBase::Collision(const ObjectBase& obj)
 {
-	int width = (mGrp.right - mGrp.left) / 2;
-	int height = (mGrp.bottom - mGrp.top) / 2;
+	int width = (m_grp.right - m_grp.left) / 2;
+	int height = (m_grp.bottom - m_grp.top) / 2;
 	RECT collisionBox = 
 	{
-		static_cast<LONG>(mPos.x - width),
-		static_cast<LONG>(mPos.y - height),
-		static_cast<LONG>(mPos.x + width),
-		static_cast<LONG>(mPos.y + height)
+		static_cast<LONG>(m_pos.x - width),
+		static_cast<LONG>(m_pos.y - height),
+		static_cast<LONG>(m_pos.x + width),
+		static_cast<LONG>(m_pos.y + height)
 	};
 
-	width = (obj.mGrp.right - obj.mGrp.left) / 2;
-	height = (obj.mGrp.bottom - obj.mGrp.top) / 2;
+	width = (obj.m_grp.right - obj.m_grp.left) / 2;
+	height = (obj.m_grp.bottom - obj.m_grp.top) / 2;
 	RECT collisionObj =
 	{
-		static_cast<LONG>(obj.mPos.x - width),
-		static_cast<LONG>(obj.mPos.y - height),
-		static_cast<LONG>(obj.mPos.x + width),
-		static_cast<LONG>(obj.mPos.y + height)
+		static_cast<LONG>(obj.m_pos.x - width),
+		static_cast<LONG>(obj.m_pos.y - height),
+		static_cast<LONG>(obj.m_pos.x + width),
+		static_cast<LONG>(obj.m_pos.y + height)
 	};
 
 
@@ -250,6 +250,6 @@ bool ObjectBase::Collision(const ObjectBase& obj)
 //----------------------------------------------------------------------
 void ObjectBase::Render() const
 {
-	g_spriteBatch->Draw(mHandle->m_pTexture, mPos, &mGrp
-		, Colors::White, 0.0f, mCenter, Vector2(1.0f, 1.0f));
+	g_spriteBatch->Draw(m_handle->m_pTexture, m_pos, &m_grp
+		, Colors::White, 0.0f, m_center, Vector2(1.0f, 1.0f));
 }
