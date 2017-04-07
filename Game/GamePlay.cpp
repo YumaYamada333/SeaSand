@@ -14,7 +14,6 @@
 #include <cassert>		// assert
 
 #include "../Common.h"
-#include "Food\Food.h"
 
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
@@ -47,12 +46,6 @@ Play::Play()
 Play::~Play()
 {
 	ReleaseBread();
-
-	//食材の破棄
-	for (int i = 0; i < FOOD_NUM; i++)
-	{
-		delete m_food[i];
-	}
 }
 
 //----------------------------------------------------------------------
@@ -67,15 +60,6 @@ void Play::Update()
 	//シーンの最初に一回だけ行う初期化処理
 	if (g_init == 0)
 	{
-		//食材の出現
-		for (int i = 0; i < FOOD_NUM; i++)
-		{
-			int food_type = GetRand(FOOD_TYPE_NUM);
-			int move_type = GetRand(F_MOVE_TYPE_NUM);
-			int line_num = GetRand(5);
-			m_food[i] = new Food(food_type, move_type, i, line_num);
-		}
-
 		g_init = 1;
 	}
 
@@ -113,16 +97,10 @@ void Play::Update()
 		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
 	}
 
-	//食材の移動
-	for (int i = 0; i < FOOD_NUM; i++)
-	{
-		m_food[i]->Move();
-	}
-
-	/*if (g_mouse.leftButton)
-	{
-		g_NextScene = CLEAR;
-	}*/
+	//if (g_mouse.leftButton)
+	//{
+	//	g_NextScene = CLEAR;
+	//}
 }
 
 //----------------------------------------------------------------------
@@ -140,12 +118,6 @@ void Play::Render()
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
-
-	//食材の描画
-	for (int i = 0; i < FOOD_NUM; i++)
-	{
-		m_food[i]->Render();
-	}
 }
 
 /*------------------------------------
@@ -162,8 +134,8 @@ void Play::InitBread()
 	Texture* bread_handle = new Texture(L"Resources/Images/bread.png");
 	assert(bread_handle != nullptr);
 
-	const RECT    BREAD_RECT           = { 0,0,192,32 };		// 幅、高さ
-	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(100.0f,25.0f),Vector2(100.0f,450.0f) };
+	const RECT    BREAD_RECT           = { 0,0,100,20 };
+	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(100.0f,100.0f),Vector2(100.0f,400.0f) };
 
 	/* パン生成 */
 	m_bread = new Player*[BREAD_NUM];	// 動的配列確保
