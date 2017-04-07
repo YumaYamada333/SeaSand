@@ -94,12 +94,14 @@
     <ClCompile Include="Game\GamePlay.cpp" />
     <ClCompile Include="Game\GameTitle.cpp" />
     <ClCompile Include="Game\Object\ObjectBase.cpp" />
+    <ClCompile Include="Game\Object\Player.cpp" />
     <ClCompile Include="ImaseLib\FPSTimer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADX2Le.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Direct3D.h" />
     <ClInclude Include="DirectXTK.h" />
     <ClInclude Include="Game\CueSheet_0.h" />
@@ -110,6 +112,7 @@
     <ClInclude Include="Game\GamePlay.h" />
     <ClInclude Include="Game\GameTitle.h" />
     <ClInclude Include="Game\Object\ObjectBase.h" />
+    <ClInclude Include="Game\Object\Player.h" />
     <ClInclude Include="ImaseLib\FPSTimer.h" />
     <ClInclude Include="MemoryLeakDetector.h" />
     <ClInclude Include="Texture.h" />

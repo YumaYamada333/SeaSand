@@ -45,13 +45,13 @@ void InitializeGame(void)
 
 	g_key_old = 0;
 
+	// TODO:ÅŒã‚ÍLogo‚É–ß‚·
+	base =new Play();
 	base = new Logo();
+
 	g_NextScene = g_scene;
 
 }
-
-
-
 
 //----------------------------------------------------------------------
 //! @brief ƒQ[ƒ€‚ÌXVˆ—

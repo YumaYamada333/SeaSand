@@ -11,12 +11,16 @@
 // ヘッダファイルの読み込み ================================================
 #include "GameMain.h"
 #include "GamePlay.h"
+#include <cassert>		// assert
+
+#include "../Common.h"
 
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
 //グローバル変数＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝－
 int g_count;
+
 
 //関数の定義＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝－
 //----------------------------------------------------------------------
@@ -27,8 +31,9 @@ int g_count;
 //! @return なし
 //----------------------------------------------------------------------
 Play::Play()
+	:m_bread(nullptr)
 {
-	
+	InitBread();
 }
 
 //----------------------------------------------------------------------
@@ -40,7 +45,7 @@ Play::Play()
 //----------------------------------------------------------------------
 Play::~Play()
 {
-	
+	ReleaseBread();
 }
 
 //----------------------------------------------------------------------
@@ -56,12 +61,63 @@ void Play::Update()
 	if (g_init == 0)
 	{
 		g_init = 1;
-	}	
-
-	if (g_mouse.leftButton)
-	{
-		g_NextScene = CLEAR;
 	}
+
+	m_bread[UP]->MoveReset();
+	m_bread[DOWN]->MoveReset();
+
+	/* キー入力 */
+	// TODO:関数化候補
+	if (!(m_bread[UP]->IsSand()))
+	{
+		if (g_key.Left)					// 左移動
+		{
+			m_bread[UP]->MoveLeft();
+			m_bread[DOWN]->MoveLeft();
+		}
+		else if (g_key.Right)			// 右移動
+		{
+			m_bread[UP]->MoveRight();
+			m_bread[DOWN]->MoveRight();
+		}
+		else if (g_key.Space)			// はさむ
+		{
+			m_bread[UP]->Sand(UP);
+			m_bread[DOWN]->Sand(DOWN);
+		//めざすライン
+		int line_num = GetRand(F_LINE_NUM);
+		//食材の出現
+		for (int i = 0; i < FOOD_NUM; i++)
+		{
+			//食材の種類
+			int food_type = GetRand(FOOD_TYPE_NUM);
+			//食材の行動パターン
+			int move_type = GetRand(F_MOVE_TYPE_NUM);
+			m_food[i] = new Food(food_type, move_type, i, line_num);
+		}
+	}
+
+	m_bread[UP]->Update();
+	m_bread[DOWN]->Update();
+		g_init = 1;
+	}	
+	//食材の更新
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Update();
+	}
+
+	/* パン同士のあたり判定 */
+	if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+	{
+		m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
+		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
+	}
+
+	//if (g_mouse.leftButton)
+	//{
+	//	g_NextScene = CLEAR;
+	//}
 }
 
 //----------------------------------------------------------------------
@@ -73,8 +129,48 @@ void Play::Update()
 //----------------------------------------------------------------------
 void Play::Render()
 {
-	wchar_t buf[256];
+	m_bread[UP]->Render();
+	m_bread[DOWN]->Render();
 
+	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+}
+
+/*------------------------------------
+Play::InitPlayer
+
+summary:パン初期化
+param  :なし(void)
+return :なし(void)
+------------------------------------*/
+void Play::InitBread()
+{
+	// TODO:パンの各パラメーターはここで変更！
+	const int BREAD_NUM = 2;			// パンの数
+	Texture* bread_handle = new Texture(L"Resources/Images/bread.png");
+	assert(bread_handle != nullptr);
+
+	const RECT    BREAD_RECT           = { 0,0,100,20 };
+	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(100.0f,100.0f),Vector2(100.0f,400.0f) };
+
+	/* パン生成 */
+	m_bread = new Player*[BREAD_NUM];	// 動的配列確保
+	m_bread[UP]   = new Player(bread_handle, BREAD_RECT, BREAD_POS[UP]);
+	m_bread[DOWN] = new Player(bread_handle, BREAD_RECT, BREAD_POS[DOWN]);
+
+}
+
+/*------------------------------------
+Play::ReleaseBread
+
+summary:パン解放
+param  :なし(void)
+return :なし(void)
+------------------------------------*/
+void Play::ReleaseBread()
+{
+	DeleteMemory(m_bread[UP]);
+	DeleteMemory(m_bread[DOWN]);
+	DeleteArrayMemory(m_bread);
 }
