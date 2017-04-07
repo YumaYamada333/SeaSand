@@ -61,12 +61,30 @@ void Play::Update()
 	if (g_init == 0)
 	{
 		g_init = 1;
-	}	
-
-	if (g_mouse.leftButton)
-	{
-		g_NextScene = CLEAR;
 	}
+
+	m_bread[UP]->MoveReset();
+	m_bread[DOWN]->MoveReset();
+
+	/* ƒL[“ü—Í */
+	if (g_key.Left)			// ¶ˆÚ“®
+	{
+		m_bread[UP]->MoveLeft();
+		m_bread[DOWN]->MoveLeft();
+	}
+	else if (g_key.Right)	// ‰EˆÚ“®
+	{
+		m_bread[UP]->MoveRight();
+		m_bread[DOWN]->MoveRight();
+	}
+
+	m_bread[UP]->Update();
+	m_bread[DOWN]->Update();
+
+	//if (g_mouse.leftButton)
+	//{
+	//	g_NextScene = CLEAR;
+	//}
 }
 
 //----------------------------------------------------------------------
