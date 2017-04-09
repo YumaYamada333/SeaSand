@@ -28,6 +28,9 @@
     <Filter Include="ゲーム\Object">
       <UniqueIdentifier>{42f53d7c-416e-4874-8d6d-d23f55ff6b5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム\Object\Food">
+      <UniqueIdentifier>{60b83c86-302e-4aa3-bae3-0e9cbf5dd717}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImaseLib\FPSTimer.cpp">
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="Game\Object\Player.cpp">
       <Filter>ゲーム\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Food\Food.cpp">
+      <Filter>ゲーム\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Food\Food.h">
+      <Filter>ゲーム\Object\Food</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -88,6 +88,7 @@
     <ClCompile Include="ADX2Le.cpp" />
     <ClCompile Include="Direct3D.cpp" />
     <ClCompile Include="DirectXTK.cpp" />
+    <ClCompile Include="Game\Food\Food.cpp" />
     <ClCompile Include="Game\GameClear.cpp" />
     <ClCompile Include="Game\GameLogo.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="Direct3D.h" />
     <ClInclude Include="DirectXTK.h" />
     <ClInclude Include="Game\CueSheet_0.h" />
+    <ClInclude Include="Game\Food\Food.h" />
     <ClInclude Include="Game\GameBase.h" />
     <ClInclude Include="Game\GameClear.h" />
     <ClInclude Include="Game\GameLogo.h" />

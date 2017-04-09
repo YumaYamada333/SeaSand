@@ -17,7 +17,7 @@
 #include "GameTitle.h"
 #include "GameClear.h"
 #include "GameLogo.h"
-
+#include <ctime>
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
@@ -37,7 +37,7 @@ GameBase* base;
 //----------------------------------------------------------------------
 void InitializeGame(void)
 {
-
+	srand(static_cast<unsigned int>(time(nullptr)));
 
 	//âπÇÃì«Ç›çûÇ›
 	/*ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
@@ -46,7 +46,7 @@ void InitializeGame(void)
 	g_key_old = 0;
 
 	// TODO:ç≈å„ÇÕLogoÇ…ñﬂÇ∑
-	base =new Play();
+	//base =new Play();
 	base = new Logo();
 
 	g_NextScene = g_scene;

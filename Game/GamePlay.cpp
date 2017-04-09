@@ -12,6 +12,7 @@
 #include "GameMain.h"
 #include "GamePlay.h"
 #include <cassert>		// assert
+#include "Food\Food.h"
 
 #include "../Common.h"
 
@@ -46,6 +47,12 @@ Play::Play()
 Play::~Play()
 {
 	ReleaseBread();
+
+	//食材の破棄
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		delete m_food[i];
+	}
 }
 
 //----------------------------------------------------------------------
@@ -61,13 +68,16 @@ void Play::Update()
 	if (g_init == 0)
 	{
 		g_init = 1;
+
+		//食材の出現
+		FoodAwake();
 	}
 
 	m_bread[UP]->MoveReset();
 	m_bread[DOWN]->MoveReset();
 
 	/* キー入力 */
-	// TODO:関数化候補
+	//TODO:関数化候補
 	if (!(m_bread[UP]->IsSand()))
 	{
 		if (g_key.Left)					// 左移動
@@ -84,27 +94,23 @@ void Play::Update()
 		{
 			m_bread[UP]->Sand(UP);
 			m_bread[DOWN]->Sand(DOWN);
-		//めざすライン
-		int line_num = GetRand(F_LINE_NUM);
-		//食材の出現
-		for (int i = 0; i < FOOD_NUM; i++)
-		{
-			//食材の種類
-			int food_type = GetRand(FOOD_TYPE_NUM);
-			//食材の行動パターン
-			int move_type = GetRand(F_MOVE_TYPE_NUM);
-			m_food[i] = new Food(food_type, move_type, i, line_num);
 		}
-	}
+	
 
 	m_bread[UP]->Update();
 	m_bread[DOWN]->Update();
-		g_init = 1;
+		
 	}	
 	//食材の更新
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
 		m_food[i]->Update();
+	}
+
+	//食材の移動
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Move();
 	}
 
 	/* パン同士のあたり判定 */
@@ -114,10 +120,12 @@ void Play::Update()
 		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
 	}
 
-	//if (g_mouse.leftButton)
-	//{
-	//	g_NextScene = CLEAR;
-	//}
+	
+
+	/*if (g_mouse.leftButton)
+	{
+		g_NextScene = CLEAR;
+	}*/
 }
 
 //----------------------------------------------------------------------
@@ -132,9 +140,38 @@ void Play::Render()
 	m_bread[UP]->Render();
 	m_bread[DOWN]->Render();
 
+	//食材の描画
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i]->Render();
+	}
+
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+}
+
+//----------------------------------------------------------------------
+//! @brief 食材を出現させる
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void Play::FoodAwake()
+{
+	//食材がめざすライン
+	int line_num = GetRand(F_LINE_NUM);
+	//食材が集まる時間
+	int meet_time = GetRand(WAVE_TIME) + 1;
+	//食材の出現
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		//食材の種類
+		int food_type = GetRand(FOOD_TYPE_NUM);
+		//出現
+		m_food[i] = new Food(food_type, i, line_num, meet_time);
+	}
 }
 
 /*------------------------------------
