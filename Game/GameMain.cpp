@@ -46,7 +46,7 @@ void InitializeGame(void)
 	g_key_old = 0;
 
 	// TODO:ç≈å„ÇÕLogoÇ…ñﬂÇ∑
-	base =new Play();
+	//base =new Play();
 	base = new Logo();
 
 	g_NextScene = g_scene;

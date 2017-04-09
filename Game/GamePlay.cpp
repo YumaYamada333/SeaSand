@@ -69,25 +69,15 @@ void Play::Update()
 	{
 		g_init = 1;
 
-		//食材がめざすライン
-		int line_num = GetRand(F_LINE_NUM);
-		//食材が集まる時間
-		int meet_time = GetRand(WAVE_TIME) + 1;
 		//食材の出現
-		for (int i = 0; i < FOOD_NUM; i++)
-		{
-			//食材の種類
-			int food_type = GetRand(FOOD_TYPE_NUM);
-			//出現
-			m_food[i] = new Food(food_type, i, line_num, meet_time);
-		}
+		FoodAwake();
 	}
 
 	m_bread[UP]->MoveReset();
 	m_bread[DOWN]->MoveReset();
 
 	/* キー入力 */
-	// TODO:関数化候補
+	//TODO:関数化候補
 	if (!(m_bread[UP]->IsSand()))
 	{
 		if (g_key.Left)					// 左移動
@@ -132,10 +122,10 @@ void Play::Update()
 
 	
 
-	//if (g_mouse.leftButton)
-	//{
-	//	g_NextScene = CLEAR;
-	//}
+	/*if (g_mouse.leftButton)
+	{
+		g_NextScene = CLEAR;
+	}*/
 }
 
 //----------------------------------------------------------------------
@@ -159,6 +149,29 @@ void Play::Render()
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+}
+
+//----------------------------------------------------------------------
+//! @brief 食材を出現させる
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void Play::FoodAwake()
+{
+	//食材がめざすライン
+	int line_num = GetRand(F_LINE_NUM);
+	//食材が集まる時間
+	int meet_time = GetRand(WAVE_TIME) + 1;
+	//食材の出現
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		//食材の種類
+		int food_type = GetRand(FOOD_TYPE_NUM);
+		//出現
+		m_food[i] = new Food(food_type, i, line_num, meet_time);
+	}
 }
 
 /*------------------------------------

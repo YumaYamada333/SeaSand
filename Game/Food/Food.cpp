@@ -72,12 +72,12 @@ Food::Food(int food_type, int food_num, int line_num, int meet_time)
 	,m_time(0)
 	,m_turn_count(0)
 {
-	//テクスチャの設定
-	SetTexture();
-
 	//初期位置とスピードの設定
 	SetInitPos(line_num);
 	
+	//テクスチャの設定
+	SetTexture();
+
 	//状態変更
 	m_state = F_MOVE;
 }
@@ -131,6 +131,9 @@ void Food::Update()
 			//タイムの初期化
 			m_time = 0;
 		}
+
+		//テクスチャの再設定
+		SetTexture();
 	}
 }
 
@@ -195,6 +198,10 @@ void Food::ChangeState(int state)
 //----------------------------------------------------------------------
 void Food::SetTexture()
 {
+	//画像のy座標
+	int grpy = 0;
+	delete m_handle;
+
 	//テクスチャの設定
 	switch (m_food_type)
 	{
@@ -210,7 +217,11 @@ void Food::SetTexture()
 	m_center = Vector2(F_WIDTH / 2, F_HEIGHT / 2);
 
 	//短形の設定
-	m_grp = { 0, 0, static_cast<LONG>(F_WIDTH), static_cast<LONG>(F_HEIGHT) };
+	if (m_dir == RIGHT)
+	{ grpy = static_cast<int>(F_HEIGHT); }
+	else
+	{ grpy = 0; }
+	m_grp = { 0, grpy, static_cast<LONG>(F_WIDTH), grpy + static_cast<LONG>(F_HEIGHT) };
 }
 
 //----------------------------------------------------------------------
@@ -235,7 +246,7 @@ void Food::SetInitPos(int line_num)
 	}
 
 	//スタート地点の座標取得
-	m_start_line = m_pos.x;
+	m_start_line = static_cast<int>(m_pos.x);
 
 	//指定秒数でめざすラインの設定
 	m_last_line = line_num;
@@ -283,12 +294,12 @@ void Food::SetSpeed(int line_num)
 	//移動距離の計算、向きの設定
 	if (m_line > m_pos.x)
 	{
-		distance = m_line - m_pos.x;
+		distance = static_cast<int>(m_line - m_pos.x);
 		m_dir = RIGHT;
 	}
 	else
 	{	
-		distance = m_pos.x - m_line;
+		distance = static_cast<int>(m_pos.x - m_line);
 		m_dir = LEFT;
 	}
 
