@@ -30,27 +30,32 @@ const float F_HEIGHT = 64.0f;	//高さ
 //食材の縦の間隔
 const float F_LINE_HEIGHT = 90.0f;
 
-//戻るための
-
-//食材の移動パターン
-enum FOOD_MOVE_TYPE
+//食材の向き
+enum FOOD_DIRECTION
 {
-	FM_1,
-	FM_2,
-	FM_3,
-	FM_4,
-	FM_5,
-	FM_6,
+	RIGHT,
+	LEFT,
+};
+
+//食材が目指すラインの番号
+enum FOOD_LINE_NUM
+{
+	LINE_1,
+	LINE_2,
+	LINE_3,
+	LINE_4,
+	LINE_5,
+	START_LINE,
 };
 
 //食材が目指すX座標(5パターン)
 enum FOOD_MOVE_X
 {
-	LINE_1 = (64),
-	LINE_2 = (192),
-	LINE_3 = (320),
-	LINE_4 = (448),
-	LINE_5 = (576),
+	POINT_LINE_1 = (64),
+	POINT_LINE_2 = (192),
+	POINT_LINE_3 = (320),
+	POINT_LINE_4 = (448),
+	POINT_LINE_5 = (576),
 };
 
 //関数の定義＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -60,11 +65,12 @@ enum FOOD_MOVE_X
 //!
 //! @param[in] 食材の情報
 //----------------------------------------------------------------------
-Food::Food(int food_type, int move_type, int food_num, int line_num)
+Food::Food(int food_type, int food_num, int line_num, int meet_time)
 	:m_food_type(food_type)
-	,m_move_type(move_type)
 	,m_num(food_num)
+	,m_meet_time(meet_time)
 	,m_time(0)
+	,m_turn_count(0)
 {
 	//テクスチャの設定
 	SetTexture();
@@ -98,31 +104,33 @@ void Food::Update()
 	if (m_state == F_MOVE)
 	{
 		m_time++;
-		
-		//行動パターンごとに行動変更
-		switch (m_move_type)
+
+		//1秒たっていて、目的地変更回数が規定数に達していなかったら目的地変更
+		if (m_time > 60 && m_turn_count <= WAVE_TIME)
 		{
-		case FM_3:
-		case FM_4:
-			if (m_time == static_cast<int>(WAVE_TIME / (m_turn_num + 1) * 60.0f))
+
+			if (m_turn_count == m_meet_time - 1)
 			{
+				//目的地変更(指定地点)
 				SetSpeed(m_last_line);
 			}
-			break;
-		case FM_5:
-		case FM_6:
-			if (m_time == static_cast<int>(WAVE_TIME / (m_turn_num + 1) * 60.0f))
+			else if (m_turn_count == WAVE_TIME)
 			{
+				//目的地変更(スタート地点)
+				SetSpeed(START_LINE);
+			}
+			else
+			{
+				//目的地変更(ランダム)
 				SetSpeed(GetRand(F_LINE_NUM));
 			}
-			if (m_time == static_cast<int>(WAVE_TIME / (m_turn_num + 1) * 60.0f * 2))
-			{
-				SetSpeed(m_last_line);
-			}
-			break;
-		default:
-			break;
-		}	
+
+			//目的地変更カウント加算
+			m_turn_count++;
+
+			//タイムの初期化
+			m_time = 0;
+		}
 	}
 }
 
@@ -208,14 +216,16 @@ void Food::SetTexture()
 //----------------------------------------------------------------------
 //! @brief 食材の移動パターンごとに初期位置を設定する関数
 //!
-//! @param[in] なし
+//! @param[in] 指定秒数でめざすライン(番号)
 //!
 //! @return なし
 //----------------------------------------------------------------------
 void Food::SetInitPos(int line_num)
 {
-	//初期位置の設定(左端or右端)
-	if (m_move_type % 2 == 1)
+	int init_pos = GetRand(2);
+
+	//初期位置の設定(奇数：左端or偶数：右端)
+	if (init_pos % 2 == 1)
 	{
 		m_pos = Vector2(-F_WIDTH, (m_num + 1) * F_LINE_HEIGHT);
 	}
@@ -224,25 +234,21 @@ void Food::SetInitPos(int line_num)
 		m_pos = Vector2(SCREEN_WIDTH + F_WIDTH, (m_num + 1) * F_LINE_HEIGHT);
 	}
 
-	//最終的にめざすラインの設定
+	//スタート地点の座標取得
+	m_start_line = m_pos.x;
+
+	//指定秒数でめざすラインの設定
 	m_last_line = line_num;
 
-	//速度決定
-	if (m_move_type == FM_1 ||
-		m_move_type == FM_2)
-	{
-		SetSpeed(m_last_line);
-	}
-	else
-	{
-		SetSpeed(GetRand(F_LINE_NUM));
-	}
+	//速度決定(5本のラインからランダムの位置へ向かう)
+	SetSpeed(GetRand(F_LINE_NUM));
+	
 }
 
 //----------------------------------------------------------------------
 //! @brief 食材の速度を設定する関数
 //!
-//! @param[in] めざすライン
+//! @param[in] めざすライン(番号)
 //!
 //! @return なし
 //----------------------------------------------------------------------
@@ -255,66 +261,40 @@ void Food::SetSpeed(int line_num)
 	//めざすラインの決定
 	switch (line_num)
 	{
-	case 1:
-		m_line = LINE_1;
+	case LINE_1:
+		m_line = POINT_LINE_1;
 		break;
-	case 2:
-		m_line = LINE_2;
+	case LINE_2:
+		m_line = POINT_LINE_2;
 		break;
-	case 3:
-		m_line = LINE_3;
+	case LINE_3:
+		m_line = POINT_LINE_3;
 		break;
-	case 4:
-		m_line = LINE_4;
+	case LINE_4:
+		m_line = POINT_LINE_4;
 		break;
-	case 5:
-		m_line = LINE_5;
+	case LINE_5:
+		m_line = POINT_LINE_5;
 		break;
+	case START_LINE:
+		m_line = m_start_line;
 	}
 
-	//行動パターンごとに情報を代入
-	switch (m_move_type)
+	//移動距離の計算、向きの設定
+	if (m_line > m_pos.x)
 	{
-	case FM_1:
-		//距離の計算
-		distance = m_pos.x - m_line;
-		//ターン回数の設定
-		m_turn_num = 0;
-		break;
-	case FM_2:
-		//距離の計算
 		distance = m_line - m_pos.x;
-		//ターン回数の設定
-		m_turn_num = 0;
-		break;
-	case FM_3:
-		//距離の計算
-		distance = m_pos.x - m_line;
-		//ターン回数の設定
-		m_turn_num = 1;
-		break;
-	case FM_4:
-		//距離の計算
-		distance = m_line - m_pos.x;
-		//ターン回数の設定
-		m_turn_num = 1;
-		break;
-	case FM_5:
-		//距離の計算
-		distance = m_pos.x - m_line;
-		//ターン回数の設定
-		m_turn_num = 2;
-		break;
-	case FM_6:
-		//距離の計算
-		distance = m_line - m_pos.x;
-		//ターン回数の設定
-		m_turn_num = 2;
-		break;
+		m_dir = RIGHT;
 	}
+	else
+	{	
+		distance = m_pos.x - m_line;
+		m_dir = LEFT;
+	}
+
 	//スピードを計算
-	spdx = distance / (WAVE_TIME / (m_turn_num + 1)) / 60.0f;
-	if (m_move_type % 2 == 0)
+	spdx = distance / 60.0f;
+	if (m_dir == LEFT)
 	{
 		spdx = spdx * -1;
 	}

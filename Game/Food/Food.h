@@ -17,9 +17,6 @@
 //食材の種類の数
 const int FOOD_TYPE_NUM = 2;
 
-//行動パターンの数
-const int F_MOVE_TYPE_NUM = 6;
-
 //めざすラインの数
 const int F_LINE_NUM = 5;
 
@@ -45,17 +42,18 @@ enum FOOD_STATE
 class Food : public ObjectBase
 {
 private:
+	int m_dir;				//向き
 	int m_food_type;		//食材の種類
-	int m_move_type;		//食材の移動パターン
 	int m_num;				//何個目の食材か
 	int m_line;				//食材が目指すライン(x座標)
-	int m_last_line;		//食材が最終的に目指すライン
-	int m_start_line;		//食材のスタート地点
-	int m_turn_num;			//食材のターン回数
-	int m_time;				//食材の移動時間
+	int m_last_line;		//食材が指定秒数で目指すライン(番号)
+	int m_start_line;		//食材のスタート地点(x座標)
+	int m_meet_time;		//食材が集まるタイミング
+	int m_time;				//食材の移動時間制御用
+	int m_turn_count;		//目的ライン変更回数
 
 public:
-	Food(int food_type, int move_type, int food_num, int m_line);	// コンストラクタ
+	Food(int food_type, int food_num, int m_line, int meet_time);	// コンストラクタ
 	~Food();				// デストラクタ
 	void Update();			// 更新処理
 	void Move();			// 座標更新

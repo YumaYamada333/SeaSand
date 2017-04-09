@@ -69,16 +69,17 @@ void Play::Update()
 	{
 		g_init = 1;
 
-		//めざすライン
+		//食材がめざすライン
 		int line_num = GetRand(F_LINE_NUM);
+		//食材が集まる時間
+		int meet_time = GetRand(WAVE_TIME) + 1;
 		//食材の出現
 		for (int i = 0; i < FOOD_NUM; i++)
 		{
 			//食材の種類
 			int food_type = GetRand(FOOD_TYPE_NUM);
-			//食材の行動パターン
-			int move_type = GetRand(F_MOVE_TYPE_NUM);
-			m_food[i] = new Food(food_type, move_type, i, line_num);
+			//出現
+			m_food[i] = new Food(food_type, i, line_num, meet_time);
 		}
 	}
 
