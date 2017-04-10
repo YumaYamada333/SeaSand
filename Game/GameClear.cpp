@@ -29,6 +29,9 @@ Clear::Clear()
 	m_back_image = new Texture(L"Resources\\Images\\ResultBackImage.png");
 	m_message_image = new Texture(L"Resources\\Images\\ResultMessage_Result.png");
 	m_score_number_image = new Texture(L"Resources\\Images\\Number.png");
+
+	// リザルトBGM再生
+	ADX2Le::Play(CRI_CUESHEET_0_RESULTBGM);
 }
 
 //----------------------------------------------------------------------
@@ -52,6 +55,8 @@ Clear::~Clear()
 	Delete(&m_back_image);
 	Delete(&m_message_image);
 
+	// リザルトBGM停止
+	ADX2Le::Stop();
 }
 
 //----------------------------------------------------------------------

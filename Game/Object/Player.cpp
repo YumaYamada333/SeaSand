@@ -8,6 +8,8 @@ Author:Miyu Hara
 #include "Player.h"
 
 #include "../../Common.h"
+#include "../../ADX2Le.h"
+#include "..\CueSheet_0.h"
 
 /* 名前空間の使用 */
 // 名前空間
@@ -63,6 +65,13 @@ void Player::Update()
 	Move();
 }
 
+/*------------------------------------
+Player::Render
+
+summary:描画
+param  :なし(void)
+return :なし(void)
+------------------------------------*/
 void Player::Render() const
 {
 	//TODO:画像の幅、高さはここで調整！
@@ -196,6 +205,7 @@ return :なし(void)
 ------------------------------------*/
 void Player::Exit()
 {
+
 	MoveRight();
 	m_is_exit = true;
 

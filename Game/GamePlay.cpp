@@ -36,8 +36,10 @@ Play::Play()
 	, m_bread_num(BREAD_NUM)
 	, m_wave_clear(true)
 {
-	ADX2Le::Play(CRI_CUESHEET_0_RESULTBGM, 1.0f, true);
 	InitBread();
+	
+	// プレイbgmの再生
+	ADX2Le::Play(CRI_CUESHEET_0_PLAYBGM, 1.0f, true);
 }
 
 //----------------------------------------------------------------------
@@ -56,6 +58,9 @@ Play::~Play()
 	{
 		delete m_food[i];
 	}
+
+	// プレイ再生BGM停止
+	ADX2Le::Stop();
 }
 
 //----------------------------------------------------------------------
@@ -119,8 +124,14 @@ void Play::Update()
 	/* パン同士のあたり判定 */
 	if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
 	{
-		m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
-		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
+		if (m_bread[UP]->GetSpd().y != 0.0f || m_bread[DOWN]->GetSpd().y != 0.0f)
+		{
+			m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
+			m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
+			// 挟んだ音
+			ADX2Le::Play(CRI_CUESHEET_0_HASAMU2);
+		}
+
 
 		m_bread[UP]->Exit();
 		m_bread[DOWN]->Exit();

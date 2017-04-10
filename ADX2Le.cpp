@@ -221,10 +221,15 @@ CriAtomExPlaybackId ADX2Le_Player::Play(CriAtomExCueId cue_id, float volume, boo
 	if (is_loop)
 	{
 		// データ要求コールバック関数の登録
-		criAtomExPlayer_SetDataRequestCallback(m_player, on_data_request, NULL);
+		//criAtomExPlayer_SetDataRequestCallback(m_player, on_data_request, NULL);
 		// 音声データをセット
-		criAtomExPlayer_SetCueName(m_player, m_acb_hn, "MUSIC1");
-	};
+		criAtomExPlayer_SetCueName(m_player, m_acb_hn, "CueSheet_0");
+	}
+	else
+	{
+		// データ要求コールバック関数の登録解除
+		//criAtomExPlayer_SetDataRequestCallback(m_player, NULL, NULL);
+	}
 	// 音量の設定
 	criAtomExPlayer_SetVolume(m_player, volume);
 	// キューIDの指定
