@@ -34,6 +34,8 @@ int g_count;
 Play::Play()
 	:m_bread(nullptr)
 {
+	ADX2Le::Play(CRI_CUESHEET_0_PLAYBGM);
+
 	InitBread();
 }
 
