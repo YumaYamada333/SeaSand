@@ -33,6 +33,8 @@ int g_count;
 //----------------------------------------------------------------------
 Play::Play()
 	:m_bread(nullptr)
+	,m_bread_num(BREAD_NUM)
+	,m_wave_clear(true)
 {
 	InitBread();
 }
@@ -120,7 +122,8 @@ void Play::Update()
 		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
 	}
 
-	
+	//WAVEの更新
+	UpdateWave();
 
 	/*if (g_mouse.leftButton)
 	{
@@ -143,12 +146,62 @@ void Play::Render()
 	//食材の描画
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
-		m_food[i]->Render();
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
+		{
+			m_food[i]->Render();
+		}
 	}
 
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+}
+
+//----------------------------------------------------------------------
+//! @brief WAVEの更新処理
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void Play::UpdateWave()
+{
+	//移動中の魚がいなければクリア
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		if (m_food[i]->GetState() == F_NONE)
+		{
+			m_wave_clear = true;
+		}
+		else
+		{
+			m_wave_clear = false;
+		}
+	}
+	//クリア時の処理
+	if (m_wave_clear)
+	{
+		//食材の解放
+		for (int i = 0; i < FOOD_NUM; i++)
+		{
+			delete m_food[i];
+			m_food[i] = nullptr;
+		}
+		//パンの枚数を減らす
+		m_bread_num--;
+		//パンの枚数が残っていたら
+		if (m_bread_num > 0)
+		{
+			//食材の再出現
+			FoodAwake();
+		}
+		else
+		{
+			//ゲーム終了
+			g_NextScene = CLEAR;
+		}
+	}
 }
 
 //----------------------------------------------------------------------
@@ -172,6 +225,8 @@ void Play::FoodAwake()
 		//出現
 		m_food[i] = new Food(food_type, i, line_num, meet_time);
 	}
+	//waveを開始
+	m_wave_clear = false;
 }
 
 /*------------------------------------

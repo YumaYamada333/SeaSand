@@ -47,7 +47,7 @@ void InitializeGame(void)
 
 	// TODO:ç≈å„ÇÕLogoÇ…ñﬂÇ∑
 	//base =new Play();
-	base = new Logo();
+	base = new Title();
 
 	g_NextScene = g_scene;
 
