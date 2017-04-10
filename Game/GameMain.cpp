@@ -41,9 +41,9 @@ void InitializeGame(void)
 	g_TitleImage = new Texture(L"Resources\\Images\\TitleImage.png");	//タイトル画像
 
 	//音の読み込み
-	/*ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
-	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");*/
-
+	ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
+	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");
+	ADX2Le::Play(CRI_CUESHEET_0__CUE_ID_0);
 	g_key_old = 0;
 
 	base =new Logo();
@@ -64,7 +64,7 @@ void InitializeGame(void)
 void UpdateGame(void)
 {
 	//音
-	//ADX2Le::Update();
+	ADX2Le::Update();
 
 	//シーン管理
 	if (g_NextScene != g_scene)
@@ -126,7 +126,7 @@ void RenderGame(void)
 //----------------------------------------------------------------------
 void FinalizeGame(void)
 {
-	//ADX2Le::Finalize();
+	ADX2Le::Finalize();
 	
 	delete base;
 }
