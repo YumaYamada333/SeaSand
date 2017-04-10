@@ -32,4 +32,7 @@ public:
 	~Play();
 	void Update();
 	void Render();
+
+	void FoodAwake();
+
 };

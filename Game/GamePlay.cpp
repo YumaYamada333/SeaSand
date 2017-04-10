@@ -188,7 +188,7 @@ void Play::InitBread()
 	Texture* bread_handle = new Texture(L"Resources/Images/bread.png");
 	assert(bread_handle != nullptr);
 
-	const RECT    BREAD_RECT           = { 0,0,100,20 };
+	const RECT    BREAD_RECT           = { 0,0,180,180 };
 	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(100.0f,100.0f),Vector2(100.0f,400.0f) };
 
 	/* ÉpÉìê∂ê¨ */
