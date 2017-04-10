@@ -37,6 +37,8 @@ public:
 	bool IsEnterComplete();		// 入場完了した？
 	bool IsExitComplete();		// 退場完了した？(パンが画面外に出た)
 
+	void SetEnter();		// 故意に入場させる
+
 	static const float SPEED_X;			// 速度Ｘ
 	static const float SPEED_Y;			// 速度Ｙ
 	static const float SPEED_EXIT_X;	// 速度Ｘ(退場時)

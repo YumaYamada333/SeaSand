@@ -237,7 +237,6 @@ void Player::Exit()
 	if (IsExitComplete())
 	{
 		m_is_exit  = false;
-		m_is_enter = true;
 	}
 
 }
@@ -298,4 +297,9 @@ bool Player::IsExitComplete()
 	}
 
 	return false;
+}
+
+void Player::SetEnter()
+{
+	m_is_enter = true;
 }
