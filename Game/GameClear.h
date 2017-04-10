@@ -10,7 +10,7 @@
 
 #pragma once
 #include "GameBase.h"
-
+#include "Object\ObjectBase.h"
 class Clear : public GameBase 
 {
 private:
@@ -25,6 +25,9 @@ private:
 	Texture* m_back1_image;
 	// ”š
 	Texture* m_score_number_image;
+
+	// ‰æ–ÊŒø‰Ê
+	ObjectBase* m_screen_effect;
 public:
 	Clear();
 	~Clear();

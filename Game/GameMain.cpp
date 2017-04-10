@@ -51,7 +51,7 @@ void InitializeGame(void)
 
 	// TODO:ç≈å„ÇÕLogoÇ…ñﬂÇ∑
 	//base =new Play();
-	base = new Title();
+	base = new Play();
 
 	g_score = 0;
 
