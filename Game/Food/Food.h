@@ -58,7 +58,6 @@ public:
 	void Update();			// 更新処理
 	void Move();			// 座標更新
 	void Result();			// 判定結果
-	void ChangeState(int state);	// 状態変更
 	//void Render() const;	// 描画
 
 private:

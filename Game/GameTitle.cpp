@@ -54,7 +54,7 @@ void Title::Update()
 	}
 
 
-	if (g_mouse.leftButton)
+	if (g_keyTracker->pressed.Space)
 	{
 		g_NextScene = PLAY;
 	}
