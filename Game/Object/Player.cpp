@@ -258,7 +258,7 @@ return :完了(true)、ちがう(false)
 bool Player::IsExitComplete()
 {
 	/* 画面外に出ているか？ */
-	if ((m_pos.x - 100.0f) >= SCREEN_WIDTH)		// 100は入場位置修正
+	if ((m_pos.x - 150.0f) >= SCREEN_WIDTH)		// 150は入場位置修正
 	{
 		return true;
 	}

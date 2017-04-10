@@ -92,7 +92,7 @@ void Play::Update()
 			m_bread[UP]->MoveRight();
 			m_bread[DOWN]->MoveRight();
 		}
-		else if (g_key.Space)			// はさむ
+		else if (g_key.Enter)			// はさむ
 		{
 			m_bread[UP]->Sand();
 			m_bread[DOWN]->Sand();
@@ -112,6 +112,50 @@ void Play::Update()
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
 		m_food[i]->Move();
+	}
+
+	/* 一定時間経ったらパンふにゃふにゃ */
+
+
+	/* パンと具のあたり判定 */
+	for (int i = 0; i < FOOD_NUM; ++i)
+	{
+		if (m_bread[UP]->IsSand())			// はさむ処理をしてるときだけ判定
+		{
+			/* 上のパン */
+			if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))))
+			{
+				m_food[i]->SetState(F_HIT);
+				m_food[i]->SetSpd(Vector2(0.0f, Player::SPEED_Y));
+
+				/* 下のパンとくっついたら、パンと一緒に移動 */
+				if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+				{
+					m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+				}
+			}
+
+			/* 下のパン */
+			if (m_bread[DOWN]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))))
+			{
+				m_food[i]->SetState(F_HIT);
+				m_food[i]->SetSpd(Vector2(0.0f, -Player::SPEED_Y));
+
+				/* 上のパンとくっついたら、パンと一緒に移動 */
+				if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[UP]))))
+				{
+					m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+				}
+			}
+		}
+
+		/* 具も場外に行ったら */
+		if ((m_food[i]->GetState() == F_HIT) && (m_bread[UP]->IsExitComplete()))
+		{
+			m_food[i]->SetState(F_NONE);
+			// TODO:スコア加算？
+
+		}
 	}
 
 	/* パン同士のあたり判定 */
@@ -170,20 +214,23 @@ void Play::Render()
 //----------------------------------------------------------------------
 void Play::UpdateWave()
 {
+	int cnt = 0;
+
 	//移動中の魚がいなければクリア
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
 		if (m_food[i]->GetState() == F_NONE)
 		{
-			m_wave_clear = true;
+			++cnt;
 		}
-		else
-		{
-			m_wave_clear = false;
-		}
+		//else
+		//{
+		//	m_wave_clear = false;
+		//}
 	}
 	//クリア時の処理
-	if (m_wave_clear)
+	//if (m_wave_clear)
+	if(cnt==FOOD_NUM)
 	{
 		//食材の解放
 		for (int i = 0; i < FOOD_NUM; i++)
@@ -246,7 +293,7 @@ void Play::InitBread()
 	Texture* bread_handle = new Texture(L"Resources/Images/bread.png");
 	assert(bread_handle != nullptr);
 
-	const RECT    BREAD_COLLISION_RECT = { 0,0,180,45 };		// 当たり判定の幅、高さ
+	const RECT    BREAD_COLLISION_RECT = { 0,0,100,45 };		// 当たり判定の幅、高さ
 	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(300.0f,5.0f),Vector2(300.0f,360.0f) };		// それぞれのスタートライン(上、下)
 
 	/* パン生成 */
