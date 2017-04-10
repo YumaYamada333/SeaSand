@@ -10,6 +10,7 @@
 
 //ヘッダのインクルード＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 #include "..\GameMain.h"
+#include "..\Object\Player.h"
 #include "Food.h"
 
 //名前空間＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -17,11 +18,6 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
 //定数＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-//食材のスピード
-//const float N_SPEED = 0.5f;
-//const float L_SPEED = 0.2f;
-//const float H_SPEED = 1.0f;
 
 //食材のサイズ
 const float F_WIDTH = 128.0f;	//幅
@@ -71,6 +67,7 @@ Food::Food(int food_type, int food_num, int line_num, int meet_time)
 	,m_meet_time(meet_time)
 	,m_time(0)
 	,m_turn_count(0)
+	,m_hit_bread_dis(Vector2(0.0f,0.0f))
 {
 	//初期位置とスピードの設定
 	SetInitPos(line_num);
@@ -170,16 +167,20 @@ void Food::Result()
 }
 
 //----------------------------------------------------------------------
-//! @brief 食材の描画
+//! @brief 食材とパンが当たった時の処理
 //!
 //! @param[in] なし
 //!
 //! @return なし
 //----------------------------------------------------------------------
-//void Food::Render() const
-//{
-//
-//}
+void Food::HitBread(Player obj)
+{
+	//状態を変更
+	m_state = F_HIT;
+
+	//パンのスピードを取得
+	m_spd = obj.GetSpd();
+}
 
 //----------------------------------------------------------------------
 //! @brief 食材のテクスチャを設定する関数
@@ -217,7 +218,7 @@ void Food::SetTexture()
 }
 
 //----------------------------------------------------------------------
-//! @brief 食材の移動パターンごとに初期位置を設定する関数
+//! @brief 初期位置を設定する関数
 //!
 //! @param[in] 指定秒数でめざすライン(番号)
 //!
