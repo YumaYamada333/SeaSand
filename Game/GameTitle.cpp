@@ -51,8 +51,15 @@ void Title::Update()
 	if (g_init == 0)
 	{
 		g_init = 1;
+		g_TimeCnt = 0;
 	}
 
+	g_TimeCnt++;
+	//スペースキー点滅用
+	if (g_TimeCnt > 120)
+	{
+		g_TimeCnt = 0;
+	}
 
 	if (g_keyTracker->pressed.Space)
 	{
@@ -69,8 +76,17 @@ void Title::Update()
 //----------------------------------------------------------------------
 void Title::Render()
 {
-	wchar_t buf[256];
-
+	RECT rect;			// 絵の左上の座標と右下の座標編集用
+	wchar_t buf[256];	//文字列編集用
+	rect = { 0, 160, 256, 224 };
+	g_spriteBatch->Draw(g_TitleImage->m_pTexture, Vector2(0, 192),
+		&rect, Colors::White, 0.0f, Vector2(0, 0), Vector2(2.5, 2.5));
+	rect = { 0, 224, 150, 256 };
+	if (g_TimeCnt < 60)
+	{
+		g_spriteBatch->Draw(g_TitleImage->m_pTexture, Vector2(250, 380),
+			&rect, Colors::White, 0.0f, Vector2(0, 0), 1.0f);
+	}
 	swprintf_s(buf, 256, L"TITLE");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
 }
