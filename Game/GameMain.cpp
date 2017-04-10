@@ -38,11 +38,13 @@ GameBase* base;
 void InitializeGame(void)
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
+	//画像の読み込み
+	g_TitleImage = new Texture(L"Resources\\Images\\TitleImage.png");	//タイトル画像
 
 	//音の読み込み
 	/*ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
-	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");*/
-
+	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");
+	ADX2Le::Play(CRI_CUESHEET_0__CUE_ID_0);*/
 	g_key_old = 0;
 
 	// TODO:最後はLogoに戻す
@@ -129,7 +131,6 @@ void FinalizeGame(void)
 	
 	delete base;
 }
-
 
 //----------------------------------------------------------------------
 //! @brief 数値描画処理(テクスチャがないためコメントアウト)
