@@ -37,8 +37,8 @@ Clear::Clear()
 
 	// 画面効果生成
 	// screenエフェクト
-	//m_screen_effect = ScreenEffect::Create(ScreenEffect::Type::FadeIn, 1.5f * 60, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	//m_screen_effect->SetHandle(new Texture(L"Resources\\Images\\Result.png"));
+	m_screen_effect = ScreenEffect::Create(ScreenEffect::Type::FadeIn, 1.5f * 60, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	m_screen_effect->SetHandle(new Texture(L"Resources\\Images\\PlayBackImage.png"));
 }
 
 //----------------------------------------------------------------------
