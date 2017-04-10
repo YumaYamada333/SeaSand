@@ -10,7 +10,7 @@
 
 #pragma once
 #include "GameBase.h"
-
+#include "Object\ObjectBase.h"
 class Title:public GameBase
 {
 private:
@@ -20,6 +20,11 @@ private:
 	Texture* m_titlelogo_image;
 	Texture* m_titlesteat_image;
 
+	// 画面効果
+	ObjectBase* m_screen_effect;
+
+	// 画面遷移用カウンタ
+	int m_next_scene_cnt;
 public:
 	Title();
 	~Title();

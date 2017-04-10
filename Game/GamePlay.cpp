@@ -53,7 +53,6 @@ Play::Play()
 
 	// screenエフェクト
 	m_screen_effect = ScreenEffect::Create(ScreenEffect::Type::FadeIn, 1.5f * 60, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	
 	// プレイbgmの再生
 	ADX2Le::Play(CRI_CUESHEET_0_PLAYBGM, 1.0f, true);
 }

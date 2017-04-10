@@ -82,7 +82,7 @@ void ScreenEffect::Update()
 		{
 			m_rgba.w += static_cast<float>(m_time) / m_setting_time;
 		}
-
+		else m_is_finished = true;
 		break;
 	default:
 		break;

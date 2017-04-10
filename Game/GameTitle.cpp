@@ -11,6 +11,7 @@
 // ヘッダファイルの読み込み ================================================
 #include "GameMain.h"
 #include "GameTitle.h"
+#include "Object\ScreenEffect\ScreenEffect.h"
 
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
@@ -30,6 +31,9 @@ Title::Title()
 	m_titleback_image = new Texture(L"Resources\\Images\\TitleBackImage.png");
 	m_titlelogo_image = new Texture(L"Resources\\Images\\TitleLogo.png");
 	m_titlesteat_image = new Texture(L"Resources\\Images\\TitleSteat.png");
+	
+	// カウンタ初期化
+	m_next_scene_cnt = 0;
 
 }
 
@@ -43,6 +47,11 @@ Title::Title()
 Title::~Title()
 {
 	ADX2Le::Stop();
+
+	if (m_screen_effect)
+	{
+		delete m_screen_effect;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -60,6 +69,17 @@ void Title::Update()
 		g_TimeCnt = 0;
 	}
 
+	// screen効果の更新
+	if (m_screen_effect)
+	{
+		m_screen_effect->Update();
+		if (dynamic_cast<ScreenEffect*>(m_screen_effect)->IsFinished())
+		{
+			g_NextScene = PLAY;
+		}
+		return;
+	}
+
 	g_TimeCnt++;
 	//スペースキー点滅用
 	if (g_TimeCnt > 120)
@@ -69,8 +89,17 @@ void Title::Update()
 
 	if (g_keyTracker->pressed.Space)
 	{
-		g_NextScene = PLAY;
+		// 画面効果の生成
+		m_screen_effect = ScreenEffect::Create(ScreenEffect::Type::FadeOut, 1.5f * 60, Vector4(1.0f, 1.0f, 1.0f, 0.0f));
+
 	}
+
+	// screen効果の座標変更
+	if (m_screen_effect)
+	{
+		m_screen_effect->Move();
+	}
+
 }
 
 //----------------------------------------------------------------------
@@ -99,4 +128,11 @@ void Title::Render()
 	}
 	/*swprintf_s(buf, 256, L"TITLE");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));*/
+
+	// screenエフェクトの描画
+	if (m_screen_effect)
+	{
+		m_screen_effect->Render();
+	}
+
 }
