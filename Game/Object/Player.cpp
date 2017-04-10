@@ -18,8 +18,9 @@ using namespace DirectX::SimpleMath;
 
 /* 静的メンバ変数の定義 */
 // TODO:プレイヤー速度はここで調整！
-const float Player::SPEED_X = 5.0f;		// 速度Ｘ
-const float Player::SPEED_Y = 10.0f;	// 速度Ｙ
+const float Player::SPEED_X = 5.0f;			// 速度Ｘ
+const float Player::SPEED_Y = 10.0f;		// 速度Ｙ
+const float Player::SPEED_EXIT_X = 8.0f;	// 速度Ｘ(退場時)
 
 const int Player::SCREEN_WIDTH = 640;	// 画像の幅(作業用)
 
@@ -106,6 +107,30 @@ void Player::MoveRight()
 }
 
 /*------------------------------------
+Player::MoveEnter
+
+summary:入場移動
+param  :なし(void)
+return :なし(void)
+------------------------------------*/
+void Player::MoveEnter()
+{
+	SetSpd(Vector2(-SPEED_EXIT_X, 0.0f));
+}
+
+/*------------------------------------
+Player::MoveExit
+
+summary:退場移動
+param  :なし(void)
+return :なし(void)
+------------------------------------*/
+void Player::MoveExit()
+{
+	SetSpd(Vector2(SPEED_EXIT_X, 0.0f));
+}
+
+/*------------------------------------
 Player::MoveReset
 
 summary:移動リセット
@@ -174,7 +199,7 @@ void Player::Enter()
 		break;
 	}
 
-	MoveLeft();
+	MoveEnter();
 
 	/* 入場完了 */
 	if (IsEnterComplete())
@@ -205,15 +230,13 @@ return :なし(void)
 ------------------------------------*/
 void Player::Exit()
 {
-
-	MoveRight();
+	MoveExit();
 	m_is_exit = true;
 
 	/* 退場したらまた入場 */
 	if (IsExitComplete())
 	{
 		m_is_exit  = false;
-		m_is_enter = true;
 	}
 
 }
@@ -274,4 +297,9 @@ bool Player::IsExitComplete()
 	}
 
 	return false;
+}
+
+void Player::SetEnter()
+{
+	m_is_enter = true;
 }

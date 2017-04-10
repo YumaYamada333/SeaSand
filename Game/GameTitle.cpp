@@ -83,7 +83,7 @@ void Title::Update()
 void Title::Render()
 {
 	RECT rect;			// 絵の左上の座標と右下の座標編集用
-	wchar_t buf[256];	//文字列編集用
+	//wchar_t buf[256];	//文字列編集用
 	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_titleback_image);
 	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_titlelogo_image);
 	
@@ -97,6 +97,6 @@ void Title::Render()
 		g_spriteBatch->Draw(m_titlesteat_image->m_pTexture, Vector2(250, 380),
 			&rect, Colors::White, 0.0f, Vector2(0, 0), 1.0f);
 	}
-	swprintf_s(buf, 256, L"TITLE");
-	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+	/*swprintf_s(buf, 256, L"TITLE");
+	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));*/
 }

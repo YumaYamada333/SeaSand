@@ -23,31 +23,34 @@ public:
 
 	void MoveLeft();	// 左移動
 	void MoveRight();	// 右移動
+	void MoveEnter();	// 入場移動
+	void MoveExit();	// 退場移動
 	void MoveReset();	// 移動リセット
 
 	void Sand();		// はさむ
 	bool IsSand();		// はさんでる？(移動のみ。具判定は別)
 
-	void Enter();		// 入場
-	bool IsEnter();		// 入場中？
-	void Exit();		// 退場
-	bool IsExit();		// 退場中？
+	void Enter();				// 入場
+	bool IsEnter();				// 入場中？
+	void Exit();				// 退場
+	bool IsExit();				// 退場中？
+	bool IsEnterComplete();		// 入場完了した？
 	bool IsExitComplete();		// 退場完了した？(パンが画面外に出た)
+
+	void SetEnter();		// 故意に入場させる
 
 	static const float SPEED_X;			// 速度Ｘ
 	static const float SPEED_Y;			// 速度Ｙ
+	static const float SPEED_EXIT_X;	// 速度Ｘ(退場時)
 	static const int   SCREEN_WIDTH;	// 画像幅(作業用)
 
 private:
 	/* メンバ関数 */
 	void Move() override;		// 移動
 
-	bool IsEnterComplete();		// 入場完了した？
-
 	/* メンバ変数 */
 	BREAD_TYPE m_type;		// パンタイプ
 
 	bool m_is_enter;	// 入場中？
 	bool m_is_exit;		// 退場中？
-
 };

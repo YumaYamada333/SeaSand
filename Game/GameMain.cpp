@@ -26,6 +26,7 @@ using namespace DirectX;
 
 // グローバル変数の定義 ====================================================
 GameBase* base;
+int g_score;
 
 // 関数の定義 ==============================================================
 
@@ -51,6 +52,8 @@ void InitializeGame(void)
 	// TODO:最後はLogoに戻す
 	//base =new Play();
 	base = new Title();
+
+	g_score = 0;
 
 	g_NextScene = g_scene;
 

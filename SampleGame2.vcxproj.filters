@@ -33,6 +33,8 @@
     </Filter>
     <Filter Include="ゲーム\Object\ScreenEffect">
       <UniqueIdentifier>{9c983391-8b77-44a0-b2c4-3bcdfd75dc76}</UniqueIdentifier>
+    <Filter Include="ゲーム\Object\MessagePlate">
+      <UniqueIdentifier>{bd58956e-61d2-4829-b9af-764fe47f915e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +82,8 @@
     </ClCompile>
     <ClCompile Include="Game\Object\ScreenEffect\ScreenEffect.cpp">
       <Filter>ゲーム\Object\ScreenEffect</Filter>
+    <ClCompile Include="Game\Object\MessagePlate\MessagePlate.cpp">
+      <Filter>ゲーム\Object\MessagePlate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +135,8 @@
     <ClInclude Include="Game\Food\Food.h">
       <Filter>ゲーム\Object\Food</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Object\MessagePlate\MessagePlate.h">
+      <Filter>ゲーム\Object\MessagePlate</Filter>
     <ClInclude Include="Game\CueSheet_0.h">
       <Filter>ゲーム</Filter>
     </ClInclude>

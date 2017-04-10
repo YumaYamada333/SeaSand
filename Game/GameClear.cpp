@@ -72,6 +72,7 @@ void Clear::Update()
 	if (g_init == 0)
 	{
 		g_init = 1;
+		m_score = g_score;
 	}
 
 	// タイトルに移行
@@ -91,11 +92,11 @@ void Clear::Update()
 //----------------------------------------------------------------------
 void Clear::Render()
 {
-	wchar_t buf[256];
+	//wchar_t buf[256];
 	RECT rect;
-	swprintf_s(buf, 256, L"CLEAR");
+	//swprintf_s(buf, 256, L"CLEAR");
 
-	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+	//g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
 
 	//DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_back_image);
 	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_back1_image);
