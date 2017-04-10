@@ -13,6 +13,7 @@
 #include "GamePlay.h"
 #include <cassert>		// assert
 #include "Food\Food.h"
+#include "Object\MessagePlate\MessagePlate.h"
 
 #include "../Common.h"
 
@@ -21,7 +22,6 @@ using namespace DirectX;
 
 //グローバル変数＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝－
 int g_count;
-
 
 //関数の定義＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝－
 //----------------------------------------------------------------------
@@ -34,8 +34,16 @@ int g_count;
 Play::Play()
 	:m_bread(nullptr)
 	,m_bread_num(BREAD_NUM)
-	,m_wave_clear(true)
+	,m_wave_clear(false)
+	,m_time(0)
+	,m_plate(nullptr)
 {
+	//ポインタの初期化
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		m_food[i] = nullptr;
+	}
+
 	InitBread();
 }
 
@@ -55,6 +63,8 @@ Play::~Play()
 	{
 		delete m_food[i];
 	}
+	//メッセージ板の破棄
+	delete m_plate;
 }
 
 //----------------------------------------------------------------------
@@ -69,10 +79,25 @@ void Play::Update()
 	//シーンの最初に一回だけ行う初期化処理
 	if (g_init == 0)
 	{
-		g_init = 1;
+		//m_time++;
+		//プレートの出現
+		if (m_plate == nullptr)
+		{
+			m_plate = new MessagePlate(START);
+		}
+		
+		//プレートが消えたら
+		if (m_plate->GetState() == MP_NONE)
+		{
+			//プレートの破棄
+			delete m_plate;
+			m_plate = nullptr;
 
-		//食材の出現
-		FoodAwake();
+			//食材の出現
+			FoodAwake();
+
+			g_init = 1;
+		}
 	}
 
 	m_bread[UP]->MoveReset();
@@ -92,7 +117,7 @@ void Play::Update()
 			m_bread[UP]->MoveRight();
 			m_bread[DOWN]->MoveRight();
 		}
-		else if (g_key.Space)			// はさむ
+		else if (g_keyTracker->pressed.Space)			// はさむ
 		{
 			m_bread[UP]->Sand(UP);
 			m_bread[DOWN]->Sand(DOWN);
@@ -106,13 +131,50 @@ void Play::Update()
 	//食材の更新
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
-		m_food[i]->Update();
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
+		{
+			m_food[i]->Update();
+		}
+	}
+	//メッセージ板の更新
+	if (m_plate != nullptr)
+	{
+		m_plate->Update();
 	}
 
 	//食材の移動
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
-		m_food[i]->Move();
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
+		{
+			m_food[i]->Move();
+		}
+	}
+	//メッセージの移動
+	if (m_plate != nullptr)
+	{
+		m_plate->Move();
+	}
+
+	//パンと食材が当たったら
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
+		{
+			if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))) &&
+				m_bread[UP]->IsSand())
+			{
+				m_food[i]->HitBread(*m_bread[UP]);
+			}
+			if (m_bread[DOWN]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))) &&
+				m_bread[DOWN]->IsSand())
+			{
+				m_food[i]->HitBread(*m_bread[DOWN]);
+			}
+		}
 	}
 
 	/* パン同士のあたり判定 */
@@ -153,6 +215,12 @@ void Play::Render()
 		}
 	}
 
+	//メッセージ板の描画
+	if (m_plate != nullptr)
+	{
+		m_plate->Render();
+	}
+
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
@@ -170,36 +238,61 @@ void Play::UpdateWave()
 	//移動中の魚がいなければクリア
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
-		if (m_food[i]->GetState() == F_NONE)
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
 		{
-			m_wave_clear = true;
-		}
-		else
-		{
-			m_wave_clear = false;
+			if (m_food[i]->GetState() == F_NONE)
+			{
+				m_wave_clear = true;
+			}
+			else
+			{
+				m_wave_clear = false;
+			}
 		}
 	}
 	//クリア時の処理
 	if (m_wave_clear)
 	{
-		//食材の解放
-		for (int i = 0; i < FOOD_NUM; i++)
+		//プレートの出現
+		if (m_plate == nullptr)
 		{
-			delete m_food[i];
-			m_food[i] = nullptr;
+			if (m_bread_num > 1)
+			{
+				m_plate = new MessagePlate(NEXT);
+			}
+			else
+			{
+				m_plate = new MessagePlate(FINISH);
+			}
 		}
-		//パンの枚数を減らす
-		m_bread_num--;
-		//パンの枚数が残っていたら
-		if (m_bread_num > 0)
+
+		//プレートが消えたらWAVE切り替え
+		if (m_plate->GetState() == MP_NONE)
 		{
-			//食材の再出現
-			FoodAwake();
-		}
-		else
-		{
-			//ゲーム終了
-			g_NextScene = CLEAR;
+			//プレートの破棄
+			delete m_plate;
+			m_plate = nullptr;
+
+			//食材の解放
+			for (int i = 0; i < FOOD_NUM; i++)
+			{
+				delete m_food[i];
+				m_food[i] = nullptr;
+			}
+			//パンの枚数を減らす
+			m_bread_num--;
+			//パンの枚数が残っていたら
+			if (m_bread_num > 0)
+			{
+				//食材の再出現
+				FoodAwake();
+			}
+			else
+			{
+				//ゲーム終了
+				g_NextScene = CLEAR;
+			}
 		}
 	}
 }

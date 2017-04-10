@@ -13,6 +13,7 @@
 #include "Object\Player.h"
 
 class Food;
+class MessagePlate;
 
 //定数
 const int FOOD_NUM = 4;		//画面内に1度に出てくる食材の数
@@ -24,7 +25,9 @@ class Play:public GameBase
 private:
 	Player** m_bread;		// 食パン
 	Food* m_food[FOOD_NUM];
+	MessagePlate* m_plate;	//メッセージ板
 	int m_bread_num;		//パンの残り枚数
+	int m_time;				//時間		
 	bool m_wave_clear;		//1WAVEが終わったかどうかの判定
 	
 	void InitBread();		// パン初期化

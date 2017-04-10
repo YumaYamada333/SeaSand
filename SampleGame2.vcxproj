@@ -94,6 +94,7 @@
     <ClCompile Include="Game\GameMain.cpp" />
     <ClCompile Include="Game\GamePlay.cpp" />
     <ClCompile Include="Game\GameTitle.cpp" />
+    <ClCompile Include="Game\Object\MessagePlate\MessagePlate.cpp" />
     <ClCompile Include="Game\Object\ObjectBase.cpp" />
     <ClCompile Include="Game\Object\Player.cpp" />
     <ClCompile Include="ImaseLib\FPSTimer.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Game\GameMain.h" />
     <ClInclude Include="Game\GamePlay.h" />
     <ClInclude Include="Game\GameTitle.h" />
+    <ClInclude Include="Game\Object\MessagePlate\MessagePlate.h" />
     <ClInclude Include="Game\Object\ObjectBase.h" />
     <ClInclude Include="Game\Object\Player.h" />
     <ClInclude Include="ImaseLib\FPSTimer.h" />
