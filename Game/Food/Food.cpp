@@ -67,7 +67,9 @@ Food::Food(int food_type, int food_num, int line_num, int meet_time)
 	,m_meet_time(meet_time)
 	,m_time(0)
 	,m_turn_count(0)
-	,m_hit_bread_dis(Vector2(0.0f,0.0f))
+	,m_buck_flag(false)
+	,m_buck_time(0)
+	/*,m_hit_bread_dis(Vector2(0.0f,0.0f))*/
 {
 	//初期位置とスピードの設定
 	SetInitPos(line_num);
@@ -98,7 +100,7 @@ Food::~Food()
 //----------------------------------------------------------------------
 void Food::Update()
 {
-	if (m_state == F_MOVE)
+	if (m_state == F_MOVE && m_buck_flag ==false)
 	{
 		m_time++;
 
@@ -135,6 +137,16 @@ void Food::Update()
 
 		//テクスチャの再設定
 		SetTexture();
+	}
+	
+	if (m_buck_flag)
+	{
+		m_buck_time++;
+
+		if (m_buck_time > 120)
+		{
+			m_state = F_NONE;
+		}
 	}
 }
 
@@ -183,15 +195,16 @@ void Food::HitBread(Player obj)
 }
 
 //----------------------------------------------------------------------
-//! @brief 食材のターン回数変更
+//! @brief 食材がはける
 //!
-//! @param[in] 変更先の回数
+//! @param[in] なし
 //!
 //! @return なし
 //----------------------------------------------------------------------
-void Food::SetTurnCount(int num)
+void Food::Buck()
 {
-	m_turn_count = num;
+	SetSpeed(START_LINE);
+	m_buck_flag = true;
 }
 
 

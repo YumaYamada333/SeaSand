@@ -56,6 +56,8 @@ EXTERN int g_init;				//初期化管理
 EXTERN int g_TimeCnt;				//時間カウンタ
 EXTERN int g_Time;					//秒数
 
+extern int g_score;		//スコア
+
 // 関数の宣言 ==============================================================
 
 // ゲームの初期化処理

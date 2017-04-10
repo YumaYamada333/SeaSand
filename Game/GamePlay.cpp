@@ -89,6 +89,7 @@ void Play::Update()
 	//シーンの最初に一回だけ行う初期化処理
 	if (g_init == 0)
 	{
+		g_score = 0;
 		//m_time++;
 		//プレートの出現
 		if (m_plate == nullptr)
@@ -228,11 +229,19 @@ void Play::Update()
 			}
 
 			/* 具も場外に行ったら */
-			if ((m_food[i]->GetState() == F_HIT) && (m_bread[UP]->IsExitComplete()))
+			if ((m_bread[UP]->IsExitComplete()))
 			{
-				m_food[i]->SetState(F_NONE);
-				// TODO:スコア加算？
-
+				if((m_food[i]->GetState() == F_HIT))
+				{
+					m_food[i]->SetState(F_NONE);
+					// TODO:スコア加算？
+					g_score++;
+				}
+				else if (m_food[i]->GetState() == F_MOVE)
+				{
+					//m_food[i]->SetSpeed(5);
+					m_food[i]->Buck();
+				}
 			}
 		}
 	}
@@ -312,9 +321,9 @@ void Play::Render()
 		m_plate->Render();
 	}
 
-	wchar_t buf[256];
+	/*wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
-	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));*/
 }
 
 //----------------------------------------------------------------------

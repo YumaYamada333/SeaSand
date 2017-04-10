@@ -53,7 +53,9 @@ private:
 	int m_meet_time;		//食材が集まるタイミング
 	int m_time;				//食材の移動時間制御用
 	int m_turn_count;		//目的ライン変更回数
-	DirectX::SimpleMath::Vector2 m_hit_bread_dis;	//当たったパンと自分との距離
+	bool m_buck_flag;
+	int m_buck_time;
+	//DirectX::SimpleMath::Vector2 m_hit_bread_dis;	//当たったパンと自分との距離
 
 public:
 	Food(int food_type, int food_num, int m_line, int meet_time);	// コンストラクタ
@@ -62,9 +64,11 @@ public:
 	void Move();			// 座標更新
 	void Result();			// 判定結果
 	void HitBread(Player obj);		//パンと当たった時の処理
+	void Buck();					//はける
+	void SetSpeed(int line);		//速度を設定する関数
 
 private:
 	void SetTexture();		//テクスチャを設定する関数
 	void SetInitPos(int line_num);		//初期位置を設定する関数
-	void SetSpeed(int line);			//速度を設定する関数
+	
 };
