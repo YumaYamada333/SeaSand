@@ -16,6 +16,8 @@
 
 #include "../Common.h"
 
+#include "Object\ScreenEffect\ScreenEffect.h"
+
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
@@ -40,6 +42,9 @@ Play::Play()
 	// 画像読み込み
 	m_backplay_image = new Texture(L"Resources\\Images\\PlayBackImage.png");
 	InitBread();
+
+	// screenエフェクト
+	m_screen_effect = ScreenEffect::Create(ScreenEffect::Type::FadeIn, 1.5f * 60, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	
 	// プレイbgmの再生
 	ADX2Le::Play(CRI_CUESHEET_0_PLAYBGM, 1.0f, true);
@@ -60,6 +65,11 @@ Play::~Play()
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
 		delete m_food[i];
+	}
+
+	if (m_screen_effect)
+	{
+		delete m_screen_effect;
 	}
 
 	// プレイ再生BGM停止
@@ -84,6 +94,17 @@ void Play::Update()
 		FoodAwake();
 	}
 
+	// screen効果の更新
+	if (m_screen_effect)
+	{
+		m_screen_effect->Update();
+		if (dynamic_cast<ScreenEffect*>(m_screen_effect)->IsFinished())
+		{
+			delete m_screen_effect;
+			m_screen_effect = nullptr;
+		}
+		return;
+	}
 
 	m_bread[UP]->MoveReset();
 	m_bread[DOWN]->MoveReset();
@@ -117,7 +138,7 @@ void Play::Update()
 	{
 		m_food[i]->Update();
 	}
-
+	
 	//食材の移動
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
@@ -184,6 +205,12 @@ void Play::Update()
 		m_bread[DOWN]->Exit();
 	}
 
+	// screen効果の座標変更
+	if (m_screen_effect) 
+	{
+		m_screen_effect->Move();
+	}
+
 	//WAVEの更新
 	UpdateWave();
 
@@ -224,6 +251,12 @@ void Play::Render()
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+
+	// screenエフェクトの描画
+	if (m_screen_effect)
+	{
+		m_screen_effect->Render();
+	}
 }
 
 //----------------------------------------------------------------------

@@ -28,7 +28,8 @@ private:
 	int m_setting_time;
 	// 計測用の時間
 	int m_time;
-
+	// 終了した
+	bool m_is_finished;
 	// RGBA
 	DirectX::SimpleMath::Vector4 m_rgba;
 
@@ -46,7 +47,7 @@ public:
 	~ScreenEffect();
 
 	// エフェクトの生成
-	ScreenEffect* Create(Type type, int time, DirectX::SimpleMath::Vector4 rgba);
+	static ScreenEffect* Create(Type type, int time, DirectX::SimpleMath::Vector4 rgba);
 
 	// 判定は行わない
 	bool Collision(const ObjectBase& obj) override { return false; };
@@ -59,6 +60,9 @@ public:
 
 	// 描画
 	void Render() const override;
+
+	// 状態の取得
+	bool IsFinished() const;
 
 private:
 	// フェードイン

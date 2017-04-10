@@ -28,8 +28,10 @@ ScreenEffect::ScreenEffect(int time, Vector4 rgba, Type type)
 	, m_time(0)
 	, m_rgba(rgba)
 	, m_type(type)
+	, m_is_finished(false)
 {
-
+	m_grp = { 0,0,640,480 };
+	m_handle = new Texture(L"Resources\\Images\\BlackImage.png");
 }
 
 //----------------------------------------------------------------------
@@ -69,10 +71,18 @@ void ScreenEffect::Update()
 	switch (m_type)
 	{
 	case ScreenEffect::FadeIn:
-		m_rgba.z -= static_cast<float>(m_time) / m_setting_time;
+		if (m_rgba.w > 0.0f)
+		{
+			m_rgba.w -= static_cast<float>(m_time) / m_setting_time;
+		}
+		else m_is_finished = true;
 		break;
 	case ScreenEffect::FadeOut:
-		m_rgba.z += static_cast<float>(m_time) / m_setting_time;
+		if (m_rgba.w < 1.0f)
+		{
+			m_rgba.w += static_cast<float>(m_time) / m_setting_time;
+		}
+
 		break;
 	default:
 		break;
@@ -108,6 +118,18 @@ void ScreenEffect::Render() const
 }
 
 //----------------------------------------------------------------------
+//! @brief 状態の取得
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+bool ScreenEffect::IsFinished() const
+{
+	return m_is_finished;
+}
+
+//----------------------------------------------------------------------
 //! @brief フェードイン
 //!
 //! @param[in] なし
@@ -130,4 +152,3 @@ void ScreenEffect::FadeOutAction()
 {
 	m_rgba.z += static_cast<float>(m_time) / m_setting_time;
 }
-

@@ -29,6 +29,9 @@ private:
 	int m_bread_num;			//パンの残り枚数
 	bool m_wave_clear;			//1WAVEが終わったかどうかの判定
 	
+	// screenエフェクト
+	ObjectBase* m_screen_effect;
+
 	void InitBread();			// パン初期化
 	void ReleaseBread();		// パン開放
 	void FoodAwake();			// 食材の出現
