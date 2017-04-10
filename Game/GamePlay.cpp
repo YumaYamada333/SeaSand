@@ -202,15 +202,12 @@ void Play::Update()
 //----------------------------------------------------------------------
 void Play::Render()
 {
-<<<<<<< HEAD
 	//îwåi
 	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_backplay_image);
 
 	m_bread[UP]->Render();
 	m_bread[DOWN]->Render();
-=======
 	m_bread[DOWN]->Render();		// â∫ÇÃÉpÉì
->>>>>>> 8a32e7ca63801bcf09204b017dbbd68ced3c5de5
 
 	//êHçﬁÇÃï`âÊ
 	for (int i = 0; i < FOOD_NUM; i++)

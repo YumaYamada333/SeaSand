@@ -24,16 +24,13 @@ using namespace DirectX;
 //----------------------------------------------------------------------
 Title::Title()
 {
-<<<<<<< HEAD
 	// ƒ^ƒCƒgƒ‹BGMÄ¶
 	ADX2Le::Play(CRI_CUESHEET_0_TITLEBGM, 1.0f, true);
-=======
 	// ‰æ‘œ“Ç‚Ýž‚Ý
 	m_titleback_image = new Texture(L"Resources\\Images\\TitleBackImage.png");
 	m_titlelogo_image = new Texture(L"Resources\\Images\\TitleLogo.png");
 	m_titlesteat_image = new Texture(L"Resources\\Images\\TitleSteat.png");
 
->>>>>>> f75d905c2398a387881b4472e074ec39f0ea40e8
 }
 
 //----------------------------------------------------------------------
