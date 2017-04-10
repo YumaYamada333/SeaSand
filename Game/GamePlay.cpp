@@ -185,41 +185,45 @@ void Play::Update()
 	/* パンと具のあたり判定 */
 	for (int i = 0; i < FOOD_NUM; ++i)
 	{
-		if (m_bread[UP]->IsSand())			// はさむ処理をしてるときだけ判定
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
 		{
-			/* 上のパン */
-			if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))))
+			if (m_bread[UP]->IsSand())			// はさむ処理をしてるときだけ判定
 			{
-				m_food[i]->SetState(F_HIT);
-				m_food[i]->SetSpd(Vector2(0.0f, Player::SPEED_Y));
-
-				/* 下のパンとくっついたら、パンと一緒に移動 */
-				if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+				/* 上のパン */
+				if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))))
 				{
-					m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+					m_food[i]->SetState(F_HIT);
+					m_food[i]->SetSpd(Vector2(0.0f, Player::SPEED_Y));
+
+					/* 下のパンとくっついたら、パンと一緒に移動 */
+					if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+					{
+						m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+					}
+				}
+
+				/* 下のパン */
+				if (m_bread[DOWN]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))))
+				{
+					m_food[i]->SetState(F_HIT);
+					m_food[i]->SetSpd(Vector2(0.0f, -Player::SPEED_Y));
+
+					/* 上のパンとくっついたら、パンと一緒に移動 */
+					if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[UP]))))
+					{
+						m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+					}
 				}
 			}
 
-			/* 下のパン */
-			if (m_bread[DOWN]->Collision(*(dynamic_cast<ObjectBase*>(m_food[i]))))
+			/* 具も場外に行ったら */
+			if ((m_food[i]->GetState() == F_HIT) && (m_bread[UP]->IsExitComplete()))
 			{
-				m_food[i]->SetState(F_HIT);
-				m_food[i]->SetSpd(Vector2(0.0f, -Player::SPEED_Y));
+				m_food[i]->SetState(F_NONE);
+				// TODO:スコア加算？
 
-				/* 上のパンとくっついたら、パンと一緒に移動 */
-				if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[UP]))))
-				{
-					m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
-				}
 			}
-		}
-
-		/* 具も場外に行ったら */
-		if ((m_food[i]->GetState() == F_HIT) && (m_bread[UP]->IsExitComplete()))
-		{
-			m_food[i]->SetState(F_NONE);
-			// TODO:スコア加算？
-
 		}
 	}
 
