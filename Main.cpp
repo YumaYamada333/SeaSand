@@ -164,7 +164,7 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 	g_hInst = hInstance;
 	RECT rc = { 0, 0, WINDOW_W, WINDOW_H };	// ←ウインドウサイズ
 	AdjustWindowRect(&rc, WINDOW_STYLE, FALSE);
-	g_hWnd = CreateWindow(L"WindowClass", L"サンプルフレームワーク", WINDOW_STYLE,
+	g_hWnd = CreateWindow(L"WindowClass", L"シーサンド", WINDOW_STYLE,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
 		nullptr);
 	if (!g_hWnd)

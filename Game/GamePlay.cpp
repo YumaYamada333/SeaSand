@@ -106,13 +106,19 @@ void Play::Update()
 			//食材の出現
 			FoodAwake();
 
+			/* パン登場 */
+			m_bread[UP]->SetEnter();
+			m_bread[DOWN]->SetEnter();
+
 			g_init = 1;
 		}
 	}
 
-
-	m_bread[UP]->MoveReset();
-	m_bread[DOWN]->MoveReset();
+	if (!(m_bread[UP]->IsEnter()))
+	{
+		m_bread[UP]->MoveReset();
+		m_bread[DOWN]->MoveReset();
+	}
 
 	/* キー入力 */
 	if (!(m_bread[UP]->IsSand()) && !(m_bread[UP]->IsExit()) && !(m_bread[UP]->IsEnter()))
@@ -186,9 +192,6 @@ void Play::Update()
 		}
 	}
 
-	/* 一定時間経ったらパンふにゃふにゃ */
-
-
 	/* パンと具のあたり判定 */
 	for (int i = 0; i < FOOD_NUM; ++i)
 	{
@@ -234,7 +237,7 @@ void Play::Update()
 		}
 	}
 
-	const int BREAD_LIMIT_TIME_MS = 400;		// パンの寿命
+	const int BREAD_LIMIT_TIME_MS = 360;		// パンの寿命(6 * 60 = 360ms)
 
 	/* 一定時間経ったらパンふにゃふにゃ(退場) */
 	if (m_time_ms >= BREAD_LIMIT_TIME_MS)
@@ -372,6 +375,11 @@ void Play::UpdateWave()
 			//パンの枚数が残っていたら
 			if (m_bread_num > 0)
 			{
+				// TODO:パン登場
+				/* パン登場 */
+				m_bread[UP]->SetEnter();
+				m_bread[DOWN]->SetEnter();
+
 				//食材の再出現
 				FoodAwake();
 			}
@@ -424,7 +432,7 @@ void Play::InitBread()
 	assert(bread_handle != nullptr);
 
 	const RECT    BREAD_COLLISION_RECT = { 0,0,100,45 };		// 当たり判定の幅、高さ
-	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(300.0f,5.0f),Vector2(300.0f,360.0f) };		// それぞれのスタートライン(上、下)
+	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(640.0f + 100.0f,5.0f),Vector2(640.0f + 100.0f,360.0f) };	// それぞれのスタートライン(上、下)
 
 	/* パン生成 */
 	m_bread       = new Player*[BREAD_NUM];	// 配列を動的確保
