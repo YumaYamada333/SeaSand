@@ -12,14 +12,17 @@
 
 #include "..\ObjectBase.h"
 
+
 class ScreenEffect : public ObjectBase
 {
 public:
 	// 生成タイプ
 	enum Type
 	{
-		Fade
+		FadeIn,
+		FadeOut
 	};
+
 private:
 	// 設定時間
 	int m_setting_time;
@@ -27,18 +30,25 @@ private:
 	int m_time;
 
 	// RGBA
-	Vector4 m_rgba;
+	DirectX::SimpleMath::Vector4 m_rgba;
+
+	//// 使用する画面エフェクト
+	//void(*m_effect)();
+
+	// タイプ
+	Type m_type;
 
 	// 初期化
-	ScreenEffect();
+	ScreenEffect(int time, DirectX::SimpleMath::Vector4 rgba, Type type);
+
 public:
 	// 破棄
 	~ScreenEffect();
 
 	// エフェクトの生成
-	const ScreenEffect& Create(Type type);
+	ScreenEffect* Create(Type type, int time, DirectX::SimpleMath::Vector4 rgba);
 
-	// あたり判定は行わない
+	// 判定は行わない
 	bool Collision(const ObjectBase& obj) override { return false; };
 
 	// 更新
@@ -49,5 +59,12 @@ public:
 
 	// 描画
 	void Render() const override;
+
+private:
+	// フェードイン
+	void FadeInAction();
+
+	// フェードアウト
+	void FadeOutAction();
 
 };

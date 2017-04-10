@@ -31,6 +31,9 @@
     <Filter Include="ゲーム\Object\Food">
       <UniqueIdentifier>{60b83c86-302e-4aa3-bae3-0e9cbf5dd717}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ゲーム\Object\ScreenEffect">
+      <UniqueIdentifier>{9c983391-8b77-44a0-b2c4-3bcdfd75dc76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImaseLib\FPSTimer.cpp">
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="Game\Food\Food.cpp">
       <Filter>ゲーム\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\ScreenEffect\ScreenEffect.cpp">
+      <Filter>ゲーム\Object\ScreenEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Game\CueSheet_0.h">
       <Filter>ゲーム</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\ScreenEffect\ScreenEffect.h">
+      <Filter>ゲーム\Object\ScreenEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

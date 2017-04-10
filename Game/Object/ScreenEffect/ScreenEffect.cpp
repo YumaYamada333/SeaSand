@@ -23,10 +23,11 @@ using namespace DirectX;
 //!
 //! @param[in] なし
 //----------------------------------------------------------------------
-ScreenEffect::ScreenEffect()
-	: m_setting_time(0)
+ScreenEffect::ScreenEffect(int time, Vector4 rgba, Type type)
+	: m_setting_time(time)
 	, m_time(0)
-	, m_rgba(1.0f, 1.0f, 1.0f, 1.0f)
+	, m_rgba(rgba)
+	, m_type(type)
 {
 
 }
@@ -46,13 +47,13 @@ ScreenEffect::~ScreenEffect()
 //!
 //! @return なし
 //----------------------------------------------------------------------
-const ScreenEffect& ScreenEffect::Create(Type type)
+ScreenEffect* ScreenEffect::Create(Type type, int time, Vector4 rgba)
 {
-	switch (type)
-	{
-	default:
-		break;
-	}
+	ScreenEffect* effect = nullptr;
+
+	effect = new ScreenEffect(time, rgba, type);
+
+	return effect;
 }
 
 //----------------------------------------------------------------------
@@ -64,6 +65,19 @@ const ScreenEffect& ScreenEffect::Create(Type type)
 //----------------------------------------------------------------------
 void ScreenEffect::Update()
 {
+	// エフェクトごとに処理
+	switch (m_type)
+	{
+	case ScreenEffect::FadeIn:
+		m_rgba.z -= static_cast<float>(m_time) / m_setting_time;
+		break;
+	case ScreenEffect::FadeOut:
+		m_rgba.z += static_cast<float>(m_time) / m_setting_time;
+		break;
+	default:
+		break;
+	}
+
 	m_time++;
 }
 
@@ -91,5 +105,29 @@ void ScreenEffect::Render() const
 	g_spriteBatch->Draw(m_handle->m_pTexture, m_pos, &m_grp
 		, m_rgba, 0.0f, m_center, Vector2(1.0f, 1.0f));
 
+}
+
+//----------------------------------------------------------------------
+//! @brief フェードイン
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void ScreenEffect::FadeInAction()
+{
+	m_rgba.z -= static_cast<float>(m_time) / m_setting_time;
+}
+
+//----------------------------------------------------------------------
+//! @brief フェードアウト
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void ScreenEffect::FadeOutAction()
+{
+	m_rgba.z += static_cast<float>(m_time) / m_setting_time;
 }
 
