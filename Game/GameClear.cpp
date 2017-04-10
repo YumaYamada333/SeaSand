@@ -27,6 +27,7 @@ Clear::Clear()
 {
 	// ‰æ‘œ“Ç‚Ýž‚Ý
 	m_back_image = new Texture(L"Resources\\Images\\ResultBackImage.png");
+	m_back1_image = new Texture(L"Resources\\Images\\Result.png");
 	m_message_image = new Texture(L"Resources\\Images\\ResultMessage_Result.png");
 	m_score_number_image = new Texture(L"Resources\\Images\\Number.png");
 
@@ -96,8 +97,9 @@ void Clear::Render()
 
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
 
-	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_back_image);
-	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_message_image);
+	//DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_back_image);
+	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_back1_image);
+	//DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_message_image);
 
 	DrawNum(SCREEN_WIDTH / 2, SCREEN_HEIGHT * 2 / 3, 0.0f, 0.0f, 640.0f, 128.0f, m_score, m_score_number_image);
 }

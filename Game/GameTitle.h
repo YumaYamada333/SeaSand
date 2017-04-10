@@ -14,6 +14,11 @@
 class Title:public GameBase
 {
 private:
+	// ”wŒi‰æ‘œ
+	Texture* m_titleback_image;
+	//ƒ^ƒCƒgƒ‹ƒƒS
+	Texture* m_titlelogo_image;
+	Texture* m_titlesteat_image;
 
 public:
 	Title();

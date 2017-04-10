@@ -1,0 +1,9 @@
+diff a/Game/Food/Food.cpp b/Game/Food/Food.cpp	(rejected hunks)
+@@ -108,7 +108,6 @@
+ 		//1�b�����Ă��āA�ړI�n�ύX�񐔂��K�萔�ɒB���Ă��Ȃ�������ړI�n�ύX
+ 		if (m_time > 60 && m_turn_count <= WAVE_TIME + 1)
+ 		{
+-
+ 			if (m_turn_count == m_meet_time - 1)
+ 			{
+ 				//�ړI�n�ύX(�w��n�_)

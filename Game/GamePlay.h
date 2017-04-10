@@ -22,15 +22,17 @@ const int BREAD_NUM = 5;	//パンの残り枚数
 class Play:public GameBase
 {
 private:
-	Player** m_bread;		// 食パン
+	// 背景画像
+	Texture* m_backplay_image;	// 背景
+	Player** m_bread;			// 食パン
 	Food* m_food[FOOD_NUM];
-	int m_bread_num;		//パンの残り枚数
-	bool m_wave_clear;		//1WAVEが終わったかどうかの判定
+	int m_bread_num;			//パンの残り枚数
+	bool m_wave_clear;			//1WAVEが終わったかどうかの判定
 	
-	void InitBread();		// パン初期化
-	void ReleaseBread();	// パン開放
-	void FoodAwake();		// 食材の出現
-	void UpdateWave();		// WAVEの更新処理
+	void InitBread();			// パン初期化
+	void ReleaseBread();		// パン開放
+	void FoodAwake();			// 食材の出現
+	void UpdateWave();			// WAVEの更新処理
 
 public:
 	Play();

@@ -40,7 +40,7 @@ void InitializeGame(void)
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
 	//‰æ‘œ‚Ì“Ç‚İ‚İ
-	g_TitleImage = new Texture(L"Resources\\Images\\TitleImage.png");	//ƒ^ƒCƒgƒ‹‰æ‘œ
+	
 
 	//‰¹‚Ì“Ç‚İ‚İ
 	ADX2Le::Initialize("Resources\\Sounds\\SeeSand.acf");

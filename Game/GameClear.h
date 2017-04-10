@@ -22,6 +22,7 @@ private:
 	Texture* m_message_image;
 	// ”wŒi‰æ‘œ
 	Texture* m_back_image;
+	Texture* m_back1_image;
 	// ”š
 	Texture* m_score_number_image;
 public:

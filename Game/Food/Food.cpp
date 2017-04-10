@@ -108,7 +108,6 @@ void Food::Update()
 		//1秒たっていて、目的地変更回数が規定数に達していなかったら目的地変更
 		if (m_time > 60 && m_turn_count <= WAVE_TIME + 1)
 		{
-
 			if (m_turn_count == m_meet_time - 1)
 			{
 				//目的地変更(指定地点)
@@ -151,7 +150,7 @@ void Food::Update()
 //----------------------------------------------------------------------
 void Food::Move()
 {
-	if (m_state == F_MOVE)
+	if (m_state == F_MOVE || m_state == F_HIT)
 	{
 		// 座標更新
 		m_pos += m_spd;

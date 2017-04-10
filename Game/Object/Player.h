@@ -32,20 +32,19 @@ public:
 	bool IsEnter();		// 入場中？
 	void Exit();		// 退場
 	bool IsExit();		// 退場中？
+	bool IsExitComplete();		// 退場完了した？(パンが画面外に出た)
+
+	static const float SPEED_X;			// 速度Ｘ
+	static const float SPEED_Y;			// 速度Ｙ
+	static const int   SCREEN_WIDTH;	// 画像幅(作業用)
 
 private:
 	/* メンバ関数 */
 	void Move() override;		// 移動
 
 	bool IsEnterComplete();		// 入場完了した？
-	bool IsExitComplete();		// 退場完了した？(パンが画面外に出た)
 
 	/* メンバ変数 */
-	static const float SPEED_X;		// 速度Ｘ
-	static const float SPEED_Y;		// 速度Ｙ
-
-	static const int SCREEN_WIDTH;
-
 	BREAD_TYPE m_type;		// パンタイプ
 
 	bool m_is_enter;	// 入場中？
