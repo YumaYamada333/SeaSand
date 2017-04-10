@@ -33,6 +33,8 @@ int g_count;
 //----------------------------------------------------------------------
 Play::Play()
 	:m_bread(nullptr)
+	, m_bread_num(BREAD_NUM)
+	, m_wave_clear(true)
 {
 	ADX2Le::Play(CRI_CUESHEET_0_RESULTBGM, 1.0f, true);
 	InitBread();
@@ -80,7 +82,7 @@ void Play::Update()
 
 	/* キー入力 */
 	//TODO:関数化候補
-	if (!(m_bread[UP]->IsSand()))
+	if (!(m_bread[UP]->IsSand()) && !(m_bread[UP]->IsExit()) && !(m_bread[UP]->IsEnter()))
 	{
 		if (g_key.Left)					// 左移動
 		{
@@ -94,15 +96,14 @@ void Play::Update()
 		}
 		else if (g_key.Space)			// はさむ
 		{
-			m_bread[UP]->Sand(UP);
-			m_bread[DOWN]->Sand(DOWN);
+			m_bread[UP]->Sand();
+			m_bread[DOWN]->Sand();
 		}
-	
+	}
 
 	m_bread[UP]->Update();
 	m_bread[DOWN]->Update();
 		
-	}	
 	//食材の更新
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
@@ -120,14 +121,18 @@ void Play::Update()
 	{
 		m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
 		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
+
+		m_bread[UP]->Exit();
+		m_bread[DOWN]->Exit();
 	}
 
-	
+	//WAVEの更新
+	UpdateWave();
 
-	/*if (g_mouse.leftButton)
-	{
-		g_NextScene = CLEAR;
-	}*/
+	//if (g_mouse.leftButton)
+	//{
+	//	g_NextScene = CLEAR;
+	//}
 }
 
 //----------------------------------------------------------------------
@@ -139,18 +144,69 @@ void Play::Update()
 //----------------------------------------------------------------------
 void Play::Render()
 {
-	m_bread[UP]->Render();
-	m_bread[DOWN]->Render();
+	m_bread[DOWN]->Render();		// 下のパン
 
 	//食材の描画
 	for (int i = 0; i < FOOD_NUM; i++)
 	{
-		m_food[i]->Render();
+		//食材が存在している状態なら
+		if (m_food[i] != nullptr)
+		{
+			m_food[i]->Render();
+		}
 	}
+
+	m_bread[UP]->Render();			// 上のパン
 
 	wchar_t buf[256];
 	swprintf_s(buf, 256, L"PLAY");
 	g_spriteFont->DrawString(g_spriteBatch.get(), buf, Vector2(100, 0));
+}
+
+//----------------------------------------------------------------------
+//! @brief WAVEの更新処理
+//!
+//! @param[in] なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void Play::UpdateWave()
+{
+	//移動中の魚がいなければクリア
+	for (int i = 0; i < FOOD_NUM; i++)
+	{
+		if (m_food[i]->GetState() == F_NONE)
+		{
+			m_wave_clear = true;
+		}
+		else
+		{
+			m_wave_clear = false;
+		}
+	}
+	//クリア時の処理
+	if (m_wave_clear)
+	{
+		//食材の解放
+		for (int i = 0; i < FOOD_NUM; i++)
+		{
+			delete m_food[i];
+			m_food[i] = nullptr;
+		}
+		//パンの枚数を減らす
+		m_bread_num--;
+		//パンの枚数が残っていたら
+		if (m_bread_num > 0)
+		{
+			//食材の再出現
+			FoodAwake();
+		}
+		else
+		{
+			//ゲーム終了
+			g_NextScene = CLEAR;
+		}
+	}
 }
 
 //----------------------------------------------------------------------
@@ -174,6 +230,8 @@ void Play::FoodAwake()
 		//出現
 		m_food[i] = new Food(food_type, i, line_num, meet_time);
 	}
+	//waveを開始
+	m_wave_clear = false;
 }
 
 /*------------------------------------
@@ -190,13 +248,13 @@ void Play::InitBread()
 	Texture* bread_handle = new Texture(L"Resources/Images/bread.png");
 	assert(bread_handle != nullptr);
 
-	const RECT    BREAD_RECT           = { 0,0,180,180 };
-	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(100.0f,100.0f),Vector2(100.0f,400.0f) };
+	const RECT    BREAD_COLLISION_RECT = { 0,0,180,45 };		// 当たり判定の幅、高さ
+	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(300.0f,5.0f),Vector2(300.0f,360.0f) };		// それぞれのスタートライン(上、下)
 
 	/* パン生成 */
-	m_bread = new Player*[BREAD_NUM];	// 動的配列確保
-	m_bread[UP]   = new Player(bread_handle, BREAD_RECT, BREAD_POS[UP]);
-	m_bread[DOWN] = new Player(bread_handle, BREAD_RECT, BREAD_POS[DOWN]);
+	m_bread       = new Player*[BREAD_NUM];	// 配列を動的確保
+	m_bread[UP]   = new Player(bread_handle, BREAD_COLLISION_RECT, BREAD_POS[UP], Vector2(0.0f, 0.0f), 0, UP);
+	m_bread[DOWN] = new Player(bread_handle, BREAD_COLLISION_RECT, BREAD_POS[DOWN], Vector2(0.0f, 0.0f), 0, DOWN);
 
 }
 
