@@ -42,7 +42,7 @@ void InitializeGame(void)
 
 	//âπÇÃì«Ç›çûÇ›
 	ADX2Le::Initialize("Resources\\Sounds\\SeeSand.acf");
-	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");
+	ADX2Le::LoadAcb("Resources\\Sounds\\WorkUnit_0\\CueSheet_0.acb", "Resources\\Sounds\\WorkUnit_0\\CueSheet_0.awb");
 
 	g_key_old = 0;
 

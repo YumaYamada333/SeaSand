@@ -169,6 +169,16 @@ void ADX2Le_Player::Create()
 	if (m_player == nullptr) m_player = criAtomExPlayer_Create(NULL, NULL, 0);
 }
 
+//---------------------------------------------------------------------------------------
+// データ要求コールバック関数
+//---------------------------------------------------------------------------------------
+void on_data_request(void *obj, CriAtomExPlaybackId id, CriAtomPlayerHn player)
+{
+	// 前回再生したデータを再セット
+	criAtomPlayer_SetPreviousDataAgain(player);
+
+}
+
 //--------------------------------------------------------------------------------------
 // Acbファイルのロード
 //--------------------------------------------------------------------------------------
@@ -205,13 +215,20 @@ CriAtomExPlayerHn ADX2Le_Player::GetPlayerHandle()
 //--------------------------------------------------------------------------------------
 // 指定キューの再生 
 //--------------------------------------------------------------------------------------
-CriAtomExPlaybackId ADX2Le_Player::Play(CriAtomExCueId cue_id, float volume)
+CriAtomExPlaybackId ADX2Le_Player::Play(CriAtomExCueId cue_id, float volume, bool is_loop)
 {
+	// ループ再生
+	if (is_loop)
+	{
+		// データ要求コールバック関数の登録
+		criAtomExPlayer_SetDataRequestCallback(m_player, on_data_request, NULL);
+		// 音声データをセット
+		criAtomExPlayer_SetCueName(m_player, m_acb_hn, "MUSIC1");
+	};
 	// 音量の設定
 	criAtomExPlayer_SetVolume(m_player, volume);
 	// キューIDの指定
 	criAtomExPlayer_SetCueId(m_player, m_acb_hn, cue_id);
-
 	// 再生の開始
 	return criAtomExPlayer_Start(m_player);
 }
@@ -335,9 +352,9 @@ void ADX2Le::LoadAcb(const char *acb, const char *awb)
 //--------------------------------------------------------------------------------------
 // 指定キューの再生 
 //--------------------------------------------------------------------------------------
-CriAtomExPlaybackId ADX2Le::Play(CriAtomExCueId cue_id, float volume)
+CriAtomExPlaybackId ADX2Le::Play(CriAtomExCueId cue_id, float volume, bool is_loop)
 {
-	return m_player.Play(cue_id, volume);
+	return m_player.Play(cue_id, volume, is_loop);
 }
 
 //--------------------------------------------------------------------------------------

@@ -34,8 +34,7 @@ int g_count;
 Play::Play()
 	:m_bread(nullptr)
 {
-	ADX2Le::Play(CRI_CUESHEET_0_PLAYBGM);
-
+	ADX2Le::Play(CRI_CUESHEET_0_RESULTBGM, 1.0f, true);
 	InitBread();
 }
 
@@ -74,6 +73,7 @@ void Play::Update()
 		//HÞ‚ÌoŒ»
 		FoodAwake();
 	}
+
 
 	m_bread[UP]->MoveReset();
 	m_bread[DOWN]->MoveReset();
