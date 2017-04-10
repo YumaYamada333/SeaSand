@@ -32,10 +32,13 @@ int g_count;
 //! @return ‚È‚µ
 //----------------------------------------------------------------------
 Play::Play()
+	
 	:m_bread(nullptr)
 	,m_bread_num(BREAD_NUM)
 	,m_wave_clear(true)
 {
+	// ‰æ‘œ“Ç‚İ‚İ
+	m_backplay_image = new Texture(L"Resources\\Images\\PlayBackImage.png");
 	InitBread();
 }
 
@@ -140,6 +143,9 @@ void Play::Update()
 //----------------------------------------------------------------------
 void Play::Render()
 {
+	//”wŒi
+	DrawRectTexture(0.0f, 0.0f, 0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, m_backplay_image);
+
 	m_bread[UP]->Render();
 	m_bread[DOWN]->Render();
 

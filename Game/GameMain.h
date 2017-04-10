@@ -45,7 +45,6 @@ enum SCENE
 };
 
 // グローバル変数の定義 ====================================================
-EXTERN Texture *g_TitleImage;	//タイトル画像
 
 EXTERN int g_key_code;			//キー情報
 EXTERN int g_key_old;			//前フレームのキー情報
