@@ -78,7 +78,7 @@ public:
 	//----- 再生 -----//
 
 	// 指定キューの再生 
-	CriAtomExPlaybackId Play(CriAtomExCueId cue_id, float volume = 1.0f);
+	CriAtomExPlaybackId Play(CriAtomExCueId cue_id, float volume = 1.0f, bool is_loop = false);
 
 	//----- 音量 -----//
 
@@ -157,7 +157,7 @@ public:
 	//----- 再生 -----//
 
 	// 指定キューの再生 
-	static CriAtomExPlaybackId Play(CriAtomExCueId cue_id, float volume = 1.0f);
+	static CriAtomExPlaybackId Play(CriAtomExCueId cue_id, float volume = 1.0f, bool is_loop = false);
 
 	//----- 音量 -----//
 

@@ -48,6 +48,9 @@ Play::Play()
 		m_food[i] = nullptr;
 	}
 	InitBread();
+	
+	// プレイbgmの再生
+	ADX2Le::Play(CRI_CUESHEET_0_PLAYBGM, 1.0f, true);
 }
 
 //----------------------------------------------------------------------
@@ -66,8 +69,12 @@ Play::~Play()
 	{
 		delete m_food[i];
 	}
+
 	//メッセージ板の破棄
 	delete m_plate;
+
+	// プレイ再生BGM停止
+	ADX2Le::Stop();
 }
 
 //----------------------------------------------------------------------
@@ -103,11 +110,11 @@ void Play::Update()
 		}
 	}
 
+
 	m_bread[UP]->MoveReset();
 	m_bread[DOWN]->MoveReset();
 
 	/* キー入力 */
-	//TODO:関数化候補
 	if (!(m_bread[UP]->IsSand()) && !(m_bread[UP]->IsExit()) && !(m_bread[UP]->IsEnter()))
 	{
 		if (g_key.Left)					// 左移動
@@ -199,7 +206,7 @@ void Play::Update()
 					/* 下のパンとくっついたら、パンと一緒に移動 */
 					if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
 					{
-						m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+						m_food[i]->SetSpd(Vector2(Player::SPEED_EXIT_X, 0.0f));
 					}
 				}
 
@@ -212,7 +219,7 @@ void Play::Update()
 					/* 上のパンとくっついたら、パンと一緒に移動 */
 					if (m_food[i]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[UP]))))
 					{
-						m_food[i]->SetSpd(Vector2(Player::SPEED_X, 0.0f));
+						m_food[i]->SetSpd(Vector2(Player::SPEED_EXIT_X, 0.0f));
 					}
 				}
 			}
@@ -227,8 +234,10 @@ void Play::Update()
 		}
 	}
 
-	/* パン同士のあたり判定 */
-	if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+	const int BREAD_LIMIT_TIME_MS = 400;		// パンの寿命
+
+	/* 一定時間経ったらパンふにゃふにゃ(退場) */
+	if (m_time_ms >= BREAD_LIMIT_TIME_MS)
 	{
 		m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
 		m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
@@ -237,8 +246,30 @@ void Play::Update()
 		m_bread[DOWN]->Exit();
 	}
 
+	/* パン同士のあたり判定 */
+	if (m_bread[UP]->Collision(*(dynamic_cast<ObjectBase*>(m_bread[DOWN]))))
+	{
+		if (m_bread[UP]->GetSpd().y != 0.0f || m_bread[DOWN]->GetSpd().y != 0.0f)
+		{
+			m_bread[UP]->SetSpd(Vector2(0.0f, 0.0f));
+			m_bread[DOWN]->SetSpd(Vector2(0.0f, 0.0f));
+			// 挟んだ音
+			ADX2Le::Play(CRI_CUESHEET_0_HASAMU2);
+		}
+
+		m_bread[UP]->Exit();
+		m_bread[DOWN]->Exit();
+	}
+
 	//WAVEの更新
 	UpdateWave();
+
+	/* 時間更新 */
+	++m_time_ms;
+	if (m_bread[UP]->IsEnter())
+	{
+		m_time_ms = 0;
+	}
 
 	//if (g_mouse.leftButton)
 	//{

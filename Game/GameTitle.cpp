@@ -24,6 +24,8 @@ using namespace DirectX;
 //----------------------------------------------------------------------
 Title::Title()
 {
+	// É^ÉCÉgÉãBGMçƒê∂
+	ADX2Le::Play(CRI_CUESHEET_0_TITLEBGM, 1.0f, true);
 	// âÊëúì«Ç›çûÇ›
 	m_titleback_image = new Texture(L"Resources\\Images\\TitleBackImage.png");
 	m_titlelogo_image = new Texture(L"Resources\\Images\\TitleLogo.png");
@@ -40,7 +42,7 @@ Title::Title()
 //----------------------------------------------------------------------
 Title::~Title()
 {
-
+	ADX2Le::Stop();
 }
 
 //----------------------------------------------------------------------

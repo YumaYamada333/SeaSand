@@ -21,6 +21,7 @@
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
+
 // プロトタイプ宣言 ====================================================
 
 // グローバル変数の定義 ====================================================
@@ -42,9 +43,9 @@ void InitializeGame(void)
 	
 
 	//音の読み込み
-	/*ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
-	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");
-	ADX2Le::Play(CRI_CUESHEET_0__CUE_ID_0);*/
+	ADX2Le::Initialize("Resources\\Sounds\\SeeSand.acf");
+	ADX2Le::LoadAcb("Resources\\Sounds\\WorkUnit_0\\CueSheet_0.acb", "Resources\\Sounds\\WorkUnit_0\\CueSheet_0.awb");
+
 	g_key_old = 0;
 
 	// TODO:最後はLogoに戻す
@@ -65,7 +66,7 @@ void InitializeGame(void)
 void UpdateGame(void)
 {
 	//音
-	//ADX2Le::Update();
+	ADX2Le::Update();
 
 	//シーン管理
 	if (g_NextScene != g_scene)
@@ -127,9 +128,9 @@ void RenderGame(void)
 //----------------------------------------------------------------------
 void FinalizeGame(void)
 {
-	//ADX2Le::Finalize();
 	
 	delete base;
+	ADX2Le::Finalize();
 }
 
 //----------------------------------------------------------------------

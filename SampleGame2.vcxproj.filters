@@ -119,9 +119,6 @@
     <ClInclude Include="MemoryLeakDetector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\CueSheet_0.h">
-      <Filter>ゲーム\sound</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Object\ObjectBase.h">
       <Filter>ゲーム\Object</Filter>
     </ClInclude>
@@ -136,6 +133,8 @@
     </ClInclude>
     <ClInclude Include="Game\Object\MessagePlate\MessagePlate.h">
       <Filter>ゲーム\Object\MessagePlate</Filter>
+    <ClInclude Include="Game\CueSheet_0.h">
+      <Filter>ゲーム</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
