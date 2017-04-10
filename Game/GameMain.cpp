@@ -41,9 +41,9 @@ void InitializeGame(void)
 	g_TitleImage = new Texture(L"Resources\\Images\\TitleImage.png");	//タイトル画像
 
 	//音の読み込み
-	ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
+	/*ADX2Le::Initialize("Resources\\Sounds\\demo.acf");
 	ADX2Le::LoadAcb("Resources\\Sounds\\CueSheet_0.acb", "Resources\\Sounds\\CueSheet_0.awb");
-	ADX2Le::Play(CRI_CUESHEET_0__CUE_ID_0);
+	ADX2Le::Play(CRI_CUESHEET_0__CUE_ID_0);*/
 	g_key_old = 0;
 
 	base =new Logo();
@@ -64,7 +64,7 @@ void InitializeGame(void)
 void UpdateGame(void)
 {
 	//音
-	ADX2Le::Update();
+	//ADX2Le::Update();
 
 	//シーン管理
 	if (g_NextScene != g_scene)
@@ -126,39 +126,14 @@ void RenderGame(void)
 //----------------------------------------------------------------------
 void FinalizeGame(void)
 {
-	ADX2Le::Finalize();
+	//ADX2Le::Finalize();
 	
 	delete base;
 }
 
 
-//----------------------------------------------------------------------
-//! @brief 数値描画処理(テクスチャがないためコメントアウト)
-//!
-//! @param[in] xy座標，数値w
-//!
-//! @return なし
-//----------------------------------------------------------------------
-//void DrawNum(int x, int y, int n)
-//{
-//	int w = n;		//計算用
-//	int i = 0;		//文字数
-//
-//	if (w == 0)
-//	{
-//		DrawRectTexture(x, y, 0, 48, 25, 32, g_PongImage);
-//	}
-//	else
-//	{
-//		while (w)
-//		{
-//			DrawRectTexture(x - i * 25, y, (w % 10) * 25, 48, 25, 32, g_PongImage);
-//			w = w / 10;
-//			i++;
-//		}
-//	}
-//
-//}
+
+
 
 //----------------------------------------------------------------------
 //! @brief テクスチャの描画
