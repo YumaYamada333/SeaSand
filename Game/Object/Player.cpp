@@ -10,6 +10,8 @@ Author:Miyu Hara
 #include "../../Common.h"
 
 /* 名前空間の使用 */
+// 名前空間
+using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
 /* 静的メンバ変数の定義 */
@@ -59,6 +61,15 @@ void Player::Update()
 	}
 
 	Move();
+}
+
+void Player::Render() const
+{
+	//TODO:画像の幅、高さはここで調整！
+	RECT rect = { 0,0,180,180 };		// 画像の幅、高さ
+	
+	g_spriteBatch->Draw(m_handle->m_pTexture, m_pos, &rect
+		, Colors::White, 0.0f, m_center, Vector2(1.0f, 1.0f));
 }
 
 /*------------------------------------
@@ -146,11 +157,11 @@ void Player::Enter()
 	switch (m_type)
 	{
 	case UP:
-		SetPos(Vector2(m_pos.x, 65.0f));
+		SetPos(Vector2(m_pos.x, 5.0f));
 		break;
 
 	case DOWN:
-		SetPos(Vector2(m_pos.x, 425.0f));
+		SetPos(Vector2(m_pos.x, 360.0f));
 		break;
 	}
 

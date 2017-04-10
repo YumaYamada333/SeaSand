@@ -246,13 +246,13 @@ void Play::InitBread()
 	Texture* bread_handle = new Texture(L"Resources/Images/bread.png");
 	assert(bread_handle != nullptr);
 
-	const RECT    BREAD_RECT           = { 0,0,180,180 };		// 画像の幅、高さ
-	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(300.0f,65.0f),Vector2(300.0f,425.0f) };		// それぞれのスタートライン(上、下)
+	const RECT    BREAD_COLLISION_RECT = { 0,0,180,45 };		// 当たり判定の幅、高さ
+	const Vector2 BREAD_POS[BREAD_NUM] = { Vector2(300.0f,5.0f),Vector2(300.0f,360.0f) };		// それぞれのスタートライン(上、下)
 
 	/* パン生成 */
 	m_bread       = new Player*[BREAD_NUM];	// 配列を動的確保
-	m_bread[UP]   = new Player(bread_handle, BREAD_RECT, BREAD_POS[UP], Vector2(0.0f, 0.0f), 0, UP);
-	m_bread[DOWN] = new Player(bread_handle, BREAD_RECT, BREAD_POS[DOWN], Vector2(0.0f, 0.0f), 0, DOWN);
+	m_bread[UP]   = new Player(bread_handle, BREAD_COLLISION_RECT, BREAD_POS[UP], Vector2(0.0f, 0.0f), 0, UP);
+	m_bread[DOWN] = new Player(bread_handle, BREAD_COLLISION_RECT, BREAD_POS[DOWN], Vector2(0.0f, 0.0f), 0, DOWN);
 
 }
 

@@ -18,7 +18,8 @@ public:
 	Player(Texture* handle = nullptr, const RECT& grp = RECT(), const DirectX::SimpleMath::Vector2 pos = DirectX::SimpleMath::Vector2(0.0f, 0.0f), DirectX::SimpleMath::Vector2 spd = DirectX::SimpleMath::Vector2(0.0f, 0.0f), int state = 0, BREAD_TYPE type = BREAD_TYPE::UP);	// コンストラクタ
 	~Player();		// デストラクタ
 
-	void Update() override;		// 更新
+	void Update() override;								// 更新
+	void Render() const override;
 
 	void MoveLeft();	// 左移動
 	void MoveRight();	// 右移動
